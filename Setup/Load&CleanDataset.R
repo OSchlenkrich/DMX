@@ -1,0 +1,54 @@
+source("Setup/Packages.R")
+source("Setup/BaseFunctions.R")
+source("Setup/Regions/create_regions_data.R")
+
+#--- Load V-Dem-Dataset and Extract Contemporary V-Dem ----
+
+# Coppedge, Michael, John Gerring, Carl Henrik Knutsen, Staffan I. Lindberg, 
+# Jan Teorell, David Altman, Michael Bernhard, M. Steven Fish, 
+# Adam Glynn, Allen Hicken, Anna Lührmann, Kyle L. Marquardt, 
+# Kelly McMann, Pamela Paxton, Daniel Pemstein, Brigitte Seim, 
+# Rachel Sigman, Svend-Erik Skaaning, Jeffrey Staton, Steven Wilson, 
+# Agnes Cornell, Lisa Gastaldi, Haakon Gjerløw, Nina Ilchenko, Joshua Krusell, 
+# Valeriya Mechkova, Juraj Medzihorsky, Josefine Pernes, Johannes von Römer, 
+# Natalia Stepanova, Aksel Sundström, Eitan Tzelgov, Yi-ting Wang, 
+# Tore Wig, and Daniel Ziblatt. 2019. "V-Dem [Country-Year/Country-Date] Dataset v9", 
+# Varieties of Democracy (V-Dem) Project. https://doi.org/10.23696/vdemcy19
+
+# Pemstein, Daniel, Kyle L. Marquardt, Eitan Tzelgov, 
+# Yi-ting Wang, Juraj Medzihorsky, Joshua Krusell, 
+# Farhad Miri, and Johannes von Römer. 2019. 
+# “The V-Dem Measurement Model: Latent Variable Analysis for Cross-National and 
+# Cross-Temporal Expert-Coded Data”, V-Dem Working Paper No. 21. 
+# 4th edition. University of Gothenburg: Varieties of Democracy Institute.
+
+V_dem = fread("unzip -p Setup/V-Dem-CY+Others-v8.zip", encoding = "UTF-8") %>%
+  filter(project == 0 | project == 2)
+
+
+#--- Some Data Cleaning ----
+
+# elections of some countries are coded even though v2x_elecreg == 0 (meaning there is no election)
+table(V_dem$v2x_elecreg, is.na(V_dem$v2elfrfair==T))
+
+V_dem %>% 
+  select(country_name, year, v2x_elecreg, v2elfrfair) %>% 
+  filter(v2x_elecreg == 0, is.na(v2elfrfair) == F)
+
+# v2x_elecreg == 1 for these countries
+V_dem = V_dem %>%
+  mutate(v2x_elecreg = replace(v2x_elecreg, country_name == "Syria" & year==2014, 1),
+         v2x_elecreg = replace(v2x_elecreg, country_name == "Syria" & year==2016, 1),
+         v2x_elecreg = replace(v2x_elecreg, country_name == "Libya" & year==2014, 1),
+         v2x_elecreg = replace(v2x_elecreg, country_name == "Peru" & year==1931, 1)
+  )
+
+
+# Matching Country Names
+
+#unique(dem_matrix_regions$country_name)[which(unique(dem_matrix_regions$country_name) %!in% unique(V_dem$country_name))]
+#unique(V_dem$country_name)[which(unique(V_dem$country_name) %!in% unique(dem_matrix_regions$country_name))]
+
+V_dem$country_name[V_dem$country_name == "Democratic Republic of the Congo"] = "Democratic Republic of Congo"
+V_dem$country_name[V_dem$country_name == "Vietnam"] = "Democratic Republic of Vietnam"
+
