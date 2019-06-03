@@ -50,3 +50,4 @@ V_dem = V_dem %>%
 V_dem$country_name[V_dem$country_name == "Democratic Republic of the Congo"] = "Democratic Republic of Congo"
 V_dem$country_name[V_dem$country_name == "Vietnam"] = "Democratic Republic of Vietnam"
 
+

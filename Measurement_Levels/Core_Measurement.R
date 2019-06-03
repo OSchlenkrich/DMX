@@ -59,7 +59,6 @@ core_measurement = core_measurement %>%
   ungroup()
 
 
-
 # Classification
 core_measurement$classification_core = classification(core_measurement, "core")
 

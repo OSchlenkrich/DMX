@@ -15,4 +15,5 @@ dem_matrix_regions = fread("Setup/Regions/demmatrix_regions.csv", encoding = "UT
                               "Small island states" = "10")
   )
 
+dem_matrix_regions$country_name[dem_matrix_regions$country_name == "Sao Tome and Principe"] = enc2utf8("São Tomé and Príncipe")
 

@@ -50,8 +50,8 @@ create_world_map= function(dataset, selected_var, selected_year, label) {
   #             title=paste(label, selected_year, sep=" "), bins=c(0,0.25,0.5,0.75,1.00))
 }
 
-create_world_map(website_data, "total_index_context", 2018, "Gesamtwertindex \n Kontextmessung \n")
-create_world_map(website_data, "total_index_context", 2018, "Total Value Index \n Context Measurement \n")
+create_world_map(website_data, "total_index_context", 2017, "Gesamtwertindex \n Kontextmessung \n")
+create_world_map(website_data, "total_index_context", 2017, "Total Value Index \n Context Measurement \n")
 
 
 # Number of Regimes over Time ----
@@ -76,5 +76,7 @@ summary_dim_inst_context = website_data %>%
 
 
 
-ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, col=classification_context_de))) + geom_line(size=1) + theme_bw() + scale_x_continuous(breaks=seq(1900, 2020, 10)) + scale_y_continuous(breaks=seq(0, 150, 10)) + theme(axis.text.x = element_text(angle=90), legend.title = element_blank(), axis.title.x = element_blank(), plot.title = element_text(hjust=0.5)) + ggtitle("Anzahl der Regimetypen im Zeitverlauf") + ylab("Anzahl Regimetypen")
-ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, col=classification_context_en))) + geom_line(size=1) + theme_bw() + scale_x_continuous(breaks=seq(1900, 2020, 10)) + scale_y_continuous(breaks=seq(0, 150, 10)) + theme(axis.text.x = element_text(angle=90), legend.title = element_blank(), axis.title.x = element_blank(), plot.title = element_text(hjust=0.5)) + ggtitle("Number of Regimes over Time") + ylab("Number of Regimes")
+ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, col=classification_context_de))) + 
+  geom_line(size=1.1) + theme_bw() + scale_x_continuous(breaks=seq(1900, 2020, 10)) + scale_y_continuous(breaks=seq(0, 150, 10)) + theme(axis.text.x = element_text(angle=90), legend.title = element_blank(), axis.title.x = element_blank(), plot.title = element_text(hjust=0.5)) + ggtitle("Anzahl der Regimetypen im Zeitverlauf") + ylab("Anzahl Regimetypen")
+ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, col=classification_context_en))) + 
+  geom_line(size=1.1) + theme_bw() + scale_x_continuous(breaks=seq(1900, 2020, 10)) + scale_y_continuous(breaks=seq(0, 150, 10)) + theme(axis.text.x = element_text(angle=90), legend.title = element_blank(), axis.title.x = element_blank(), plot.title = element_text(hjust=0.5)) + ggtitle("Number of Regimes over Time") + ylab("Number of Regimes")
