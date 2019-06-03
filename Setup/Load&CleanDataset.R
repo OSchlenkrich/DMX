@@ -20,6 +20,7 @@ source("Setup/Regions/create_regions_data.R")
 # Cross-National and Cross-Temporal Expert-Coded Data”. University of Gothenburg, 
 # Varieties of Democracy Institute: Working Paper No. 21, 3d edition.
 
+# Change Working Directory To Load Your Copy of the V-Dem-Dataset
 V_dem = fread("C:/RTest/V-Dem-CY+Others-v8.csv", encoding = "UTF-8") %>%
   filter(project == 0 | project == 2)
 
