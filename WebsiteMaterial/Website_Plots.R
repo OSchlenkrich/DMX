@@ -1,6 +1,9 @@
 source("Setup/Packages.R")
 source("Datasets/CreateWebsiteData.R")
 
+# Set current (max) year (edition) 
+current_year = 2017 
+
 # World Map ----
 
 create_world_map= function(dataset, selected_var, selected_year, label) {
@@ -50,8 +53,8 @@ create_world_map= function(dataset, selected_var, selected_year, label) {
   #             title=paste(label, selected_year, sep=" "), bins=c(0,0.25,0.5,0.75,1.00))
 }
 
-create_world_map(website_data, "total_index_context", 2017, "Gesamtwertindex \n Kontextmessung \n")
-create_world_map(website_data, "total_index_context", 2017, "Total Value Index \n Context Measurement \n")
+create_world_map(website_data, "total_index_context", current_year, "Gesamtwertindex \n Kontextmessung \n")
+create_world_map(website_data, "total_index_context", current_year, "Total Value Index \n Context Measurement \n")
 
 
 # Number of Regimes over Time ----
