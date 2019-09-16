@@ -1,7 +1,7 @@
 source("Setup/Packages.R")
 source("Datasets/CreateWebsiteData.R")
 
-Democracy_Matrix_Small = fread("upload/DemocracyMatrix_v1_1.csv")
+Democracy_Matrix_Small = fread("upload/DemocracyMatrix_v1_1.csv", encoding = "UTF-8")
 
 # identifier for translation in EN and DE
 typo3_identification_classification = fread("upload/typo3_identification_classification.csv", encoding = "UTF-8") %>% 
