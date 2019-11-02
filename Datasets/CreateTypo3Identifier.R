@@ -38,8 +38,7 @@ typo3_identification = website_data %>%
                          "Vietnam, Democratic Republic" =	"Democratic Republic of Vietnam",
                          "Côte d'Ivoire" = "Ivory Coast",
                          "Congo, Republic" =  "Republic of the Congo",
-                         "Vietnam" = "Republic of Vietnam", 
-                         "São Tomé and Príncipe" = "Sao Tome and Principe"
+                         "Vietnam" = "Republic of Vietnam"
     )
   )
 
@@ -55,7 +54,7 @@ custom_match = c(
   "East Asia" = "Ostasien",
   "Small island states" = "Kleine Inselstaaten",
   "Global" = "Global",
-  "São Tomé and Príncipe" = "São Tomé and Príncipe",
+  "São Tomé and Príncipe" = "São Tomé und Príncipe",
   
   "Czech Republic" = "Tschechien",
   "Congo, Democratic Republic" =	"Kongo, Demokratische Republik",
@@ -74,7 +73,6 @@ custom_match = c(
   "Palestine/Gaza" = "Palästina/Gaza",
   "Palestine/West Bank" = "Palästina/Westjordanland",
   "Somaliland" = "Somaliland"
-  
 )
 
 

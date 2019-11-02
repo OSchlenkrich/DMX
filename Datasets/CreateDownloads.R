@@ -26,7 +26,10 @@ DemocracyMatrix_incl_VDem = context_measurement %>%
   rename_at(vars(starts_with("v2")), funs(sub('v2', 'vdem_v2', .))) 
 
 
-write.csv(DemocracyMatrix_incl_VDem, "upload/DemocracyMatrix_v1_1_incl_VDem.csv", fileEncoding = "UTF-8", na = "", row.names = F)
+write.csv(DemocracyMatrix_incl_VDem, "upload/DemocracyMatrix_v1_1_incl_VDem.csv", 
+          fileEncoding = "UTF-8", 
+          # na = "", 
+          row.names = F)
 
 
 # Create Democracy Matrix Dataset with base variables ----
@@ -46,4 +49,7 @@ Democracy_Matrix_Small = context_measurement %>%
   rename_at(vars(starts_with("v2")), funs(sub('v2', 'vdem_v2', .)))
 
 
-write.csv(Democracy_Matrix_Small, "upload/DemocracyMatrix_v1_1.csv", fileEncoding = "UTF-8", na = "", row.names = F)
+write.csv(Democracy_Matrix_Small, "upload/DemocracyMatrix_v1_1.csv", 
+          fileEncoding = "UTF-8", 
+          #na = "", 
+          row.names = F)
