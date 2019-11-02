@@ -30,7 +30,8 @@ write.csv(DemocracyMatrix_incl_VDem, "upload/DemocracyMatrix_v1_1_incl_VDem.csv"
           fileEncoding = "UTF-8", 
           # na = "", 
           row.names = F)
-
+zip::zipr(zipfile = 'upload/DemocracyMatrix_v1_1_incl_VDem.zip', files = 'upload/DemocracyMatrix_v1_1_incl_VDem.csv',
+          include_directories = F)
 
 # Create Democracy Matrix Dataset with base variables ----
 Democracy_Matrix_Small = context_measurement %>% 
@@ -53,3 +54,5 @@ write.csv(Democracy_Matrix_Small, "upload/DemocracyMatrix_v1_1.csv",
           fileEncoding = "UTF-8", 
           #na = "", 
           row.names = F)
+zip::zipr(zipfile = 'upload/DemocracyMatrix_v1_1.zip', files = 'upload/DemocracyMatrix_v1_1.csv',
+          include_directories = F)

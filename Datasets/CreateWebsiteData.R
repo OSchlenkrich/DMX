@@ -6,7 +6,7 @@ source("Datasets/CreateDownloads.R")
 # Create Specific Dataset for Website www.democracymatrix.com
 
 # Numbering of regions 
-dem_matrix_regions = dem_matrix_regions %>%
+dem_matrix_regions_web = dem_matrix_regions %>%
   mutate(
     regions = fct_recode(regions, 
                                    "01-Europe" = "Europe",
@@ -27,7 +27,7 @@ dem_matrix_regions = dem_matrix_regions %>%
 # Core Measurement ----
 core_measurement_website = DemocracyMatrix_incl_VDem %>% 
   select(-regions) %>% 
-  left_join(dem_matrix_regions, by=c("country")) %>%
+  left_join(dem_matrix_regions_web, by=c("country")) %>%
   select_at(vars(country, 
                  year, 
                  regions, 
@@ -61,7 +61,7 @@ core_measurement_website = core_measurement_website %>%
 
 context_measurement_website = DemocracyMatrix_incl_VDem %>% 
   select(-regions) %>%  
-  left_join(dem_matrix_regions, by=c("country")) %>%
+  left_join(dem_matrix_regions_web, by=c("country")) %>%
   select_at(vars(country, 
                  year, 
                  regions, 
@@ -95,7 +95,7 @@ context_measurement_website = context_measurement_website %>%
 
 trade_off_measurement_website = DemocracyMatrix_incl_VDem %>% 
   select(-regions) %>%  
-  left_join(dem_matrix_regions, by=c("country")) %>%
+  left_join(dem_matrix_regions_web, by=c("country")) %>%
   select_at(vars(country, 
                  year, 
                  regions, 
@@ -138,7 +138,7 @@ make_frame = function()  {
   frame_year_append_df = data.frame(country=rep(unique(website_data$country), each=lengthyear), 
                               year=rep(seq(minyear,maxyear,1), length(unique(website_data$country))))
   
-  frame_year_append_df = dem_matrix_regions %>%
+  frame_year_append_df = dem_matrix_regions_web %>%
     select(country, regions) %>%
     group_by(country) %>%
     distinct() %>%
