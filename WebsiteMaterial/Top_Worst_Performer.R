@@ -1,16 +1,16 @@
 source("Setup/Packages.R")
-source("Datasets/CreateWebsiteData.R")
+source("Datasets/CreateTypo3Identifier.R")
 
 Democracy_Matrix_Small = fread("upload/DemocracyMatrix_v1_1.csv", encoding = "UTF-8")
 
 # identifier for translation in EN and DE
-typo3_identification_classification = fread("upload/typo3_identification_classification.csv", encoding = "UTF-8") %>% 
+identification_classification_plots = typo3_identification_classification %>% 
   select(-class_identifier, classification_context = "EN", DE_Klassifikation="DE")
-typo3_identification = fread("upload/typo3_identification_1_1_UTF8.csv", encoding = "UTF-8") %>% 
+identification_plots = typo3_identification %>% 
   select(country=country_identifier, EN_country = "EN", DE_Land="DE")
 
 # Set current (max) year (edition) 
-current_year = 2017 
+current_year = max(Democracy_Matrix_Small$year) 
 
 
 # Ranking ####
@@ -25,8 +25,8 @@ Democracy_Matrix_Small %>%
          total_index_context = as.character(total_index_context),
          total_index_context = if_else(total_index_context=="0", "O", total_index_context)
          ) %>% 
-  left_join(typo3_identification_classification, by="classification_context") %>% 
-  left_join(typo3_identification, by="country") %>% 
+  left_join(identification_classification_plots, by="classification_context") %>% 
+  left_join(identification_plots, by="country") %>% 
   select(Rang=rank, Land=DE_Land, Gesamtwertindex=total_index_context,Klassifikation=DE_Klassifikation) %>% 
   write.csv("WebsiteMaterial/Ranking_DE.csv", row.names = F, fileEncoding = "UTF-8")
 
@@ -40,7 +40,7 @@ Democracy_Matrix_Small %>%
          total_index_context = as.character(total_index_context),
          total_index_context = if_else(total_index_context=="0", "O", total_index_context)
   ) %>% 
-  left_join(typo3_identification, by="country") %>% 
+  left_join(identification_plots, by="country") %>% 
   select(Rank=rank, Country=EN_country, "Total Value Index" =total_index_context, 
          Classification=classification_context) %>% 
   write.csv("WebsiteMaterial/Ranking_EN.csv", row.names = F, fileEncoding = "UTF-8")
@@ -73,7 +73,7 @@ Democracy_Matrix_Small %>%
               top_n(5, difference) %>% 
               mutate(direction = "improvement")
   ) %>% 
-  left_join(typo3_identification, by="country") %>% 
+  left_join(identification_plots, by="country") %>% 
   mutate(DE_Land = fct_reorder(DE_Land, difference)) %>% 
   select(Land=DE_Land, difference, direction) %>% 
   ggplot(aes(x=Land, y=difference, fill=direction)) +
@@ -119,7 +119,7 @@ Democracy_Matrix_Small %>%
               top_n(5, difference) %>% 
               mutate(direction = "improvement")
   ) %>% 
-  left_join(typo3_identification, by="country") %>% 
+  left_join(identification_plots, by="country") %>% 
   mutate(EN_country = fct_reorder(EN_country, difference)) %>% 
   select(Country=EN_country, difference, direction) %>% 
   ggplot(aes(x=Country, y=difference, fill=direction)) +
@@ -169,7 +169,7 @@ Democracy_Matrix_Small %>%
               top_n(5, difference) %>% 
               mutate(direction = "improvement")
   ) %>% 
-  left_join(typo3_identification, by="country") %>% 
+  left_join(identification_plots, by="country") %>% 
   mutate(DE_Land = fct_reorder(DE_Land, difference)) %>% 
   select(Land=DE_Land, difference, direction) %>% 
   ggplot(aes(x=Land, y=difference, fill=direction)) +
@@ -217,7 +217,7 @@ Democracy_Matrix_Small %>%
               top_n(5, difference) %>% 
               mutate(direction = "improvement")
   ) %>% 
-  left_join(typo3_identification, by="country") %>% 
+  left_join(identification_plots, by="country") %>% 
   mutate(EN_country = fct_reorder(EN_country, difference)) %>% 
   select(Country=EN_country, difference, direction) %>% 
   ggplot(aes(x=Country, y=difference, fill=direction)) +

@@ -84,4 +84,4 @@ typo3_identification$DE= countrycode(typo3_identification$EN, origin="country.na
 #   summarise(number = n()) %>%
 #   arrange(-number)
 
-write.csv(typo3_identification, "upload/typo3_identification_1_1_UTF8.csv", fileEncoding = "UTF-8", na = "", row.names = F)
+write.csv(typo3_identification, "upload/typo3_identification_v2_UTF8.csv", fileEncoding = "UTF-8", na = "", row.names = F)

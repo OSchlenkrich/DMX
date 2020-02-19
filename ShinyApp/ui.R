@@ -7,7 +7,8 @@ library(dplyr)
 library(data.table)
 library(gridExtra)
 
-democracymatrix = fread("website_data_v1_1.csv")
+democracymatrix = fread("website_data_v2.csv")
+curr_year = max(democracymatrix$year, na.rm=T)
 
 # Names of countries and regions
 choices = list(regions=democracymatrix %>% 
@@ -23,7 +24,7 @@ choices = list(regions=democracymatrix %>%
                  as.character
 )
 
-ui = shinyUI(navbarPage("Democracy Matrix v1.1, 10/02/2019",
+ui = shinyUI(navbarPage("Democracy Matrix v2, 19/02/2020",
                         tabPanel("15-Field-Matrix",
                                  checkboxInput("checkbox", "Compare with other country", value = FALSE, width = NULL),
                                  
@@ -32,7 +33,7 @@ ui = shinyUI(navbarPage("Democracy Matrix v1.1, 10/02/2019",
                                    selectInput("country15", "Select Country", choices=c("Choose countries"="", choices),
                                                selected = "Germany", multiple = F),
                                    selectInput("year15", "Select Year", choices=c("Choose year"="", unique(democracymatrix$year)),
-                                               selected = 2017, multiple = F),
+                                               selected = curr_year, multiple = F),
                                    radioButtons("radio15", "Select Type of Measurment", 
                                                 choices = c("Core Measurement", "Context Measurement", "Trade-Off Measurement"), 
                                                 selected = "Core Measurement"),
@@ -52,7 +53,7 @@ ui = shinyUI(navbarPage("Democracy Matrix v1.1, 10/02/2019",
                                      column(width=6, uiOutput("SecondYear")
                                      ),
                                      column(width=6, selectInput("year17", "Select 2. Year", choices=c("Choose year"="", unique(democracymatrix$year)),
-                                                                 selected = 2017, multiple = F)
+                                                                 selected = curr_year, multiple = F)
                                      )
                                    ),
                                    fluidRow(
@@ -76,7 +77,7 @@ ui = shinyUI(navbarPage("Democracy Matrix v1.1, 10/02/2019",
                                  selectInput("country_radar", "Select Country", choices=c("Choose countries"="", choices),
                                              selected = "Germany", multiple = T),
                                  selectInput("year_radar", "Select Year", choices=c("Choose year"="", unique(democracymatrix$year)),
-                                             selected = 2017, multiple = F),
+                                             selected = curr_year, multiple = F),
                                  radioButtons("radio_radar", "Select Type of Measurement", 
                                               choices = c("Core Measurement", "Context Measurement", "Trade-Off Measurement"), 
                                               selected = "Core Measurement"),
