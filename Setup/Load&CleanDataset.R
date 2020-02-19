@@ -4,26 +4,27 @@ source("Setup/Regions/create_regions_data.R")
 
 #--- Load V-Dem-Dataset and Extract Contemporary V-Dem ----
 
-# Coppedge, Michael, John Gerring, Carl Henrik Knutsen, 
-# Staffan I. Lindberg, Svend-Erik Skaaning, Jan Teorell, David Altman, 
-# Michael Bernhard, M. Steven Fish, Agnes Cornell, Sirianne Dahlum, Haakon Gjerløw, 
-# Adam Glynn, Allen Hicken, Joshua Krusell, Anna Lührmann, Kyle L. Marquardt, 
-# Kelly McMann, Valeriya Mechkova, Juraj Medzihorsky, Moa Olin, Pamela Paxton, 
-# Daniel Pemstein, Josefine Pernes, Johannes von Römer, Brigitte Seim, Rachel Sigman, 
-# Jeffrey Staton, Natalia Stepanova, Aksel Sundström, Eitan Tzelgov, Yi-ting Wang, 
-# Tore Wig, Steven Wilson, and Daniel Ziblatt. 2018. "V-Dem [Country-Year/Country-Date] Dataset v8". 
-# Varieties of Democracy (V-Dem) Project. https://doi.org/10.23696/vdemcy18
+# Coppedge, Michael, John Gerring, Carl Henrik Knutsen, Staffan I. Lindberg, 
+# Jan Teorell, David Altman, Michael Bernhard, M. Steven Fish, 
+# Adam Glynn, Allen Hicken, Anna Lührmann, Kyle L. Marquardt, Kelly McMann, 
+# Pamela Paxton, Daniel Pemstein, Brigitte Seim, Rachel Sigman, 
+# Svend-Erik Skaaning, Jeffrey Staton, Steven Wilson, Agnes Cornell,
+# Lisa Gastaldi, Haakon Gjerløw, Nina Ilchenko, Joshua Krusell, Laura Maxwell,
+# Valeriya Mechkova, Juraj Medzihorsky, Josefine Pernes, Johannes von Römer, Natalia Stepanova, 
+# Aksel Sundström, Eitan Tzelgov, Yi-ting Wang, Tore Wig, and Daniel Ziblatt. 2019. 
+# "V-Dem [Country-Year/Country-Date] Dataset v9", Varieties of Democracy (V-Dem) Project. 
+# https://doi.org/10.23696/vdemcy19
 
 
-# Pemstein, Daniel, Kyle L. Marquardt, Eitan Tzelgov, Yi-ting Wang, Joshua Krusell and 
-# Farhad Miri. 2018. “The V-Dem Measurement Model: Latent Variable Analysis for 
-# Cross-National and Cross-Temporal Expert-Coded Data”. University of Gothenburg, 
-# Varieties of Democracy Institute: Working Paper No. 21, 3d edition.
+# Pemstein, Daniel, Kyle L. Marquardt, Eitan Tzelgov, Yi-ting Wang, Juraj Medzihorsky, 
+# Joshua Krusell, Farhad Miri, and Johannes von Römer. 2019. “The V-Dem Measurement Model: 
+# Latent Variable Analysis for Cross-National and Cross-Temporal Expert-Coded Data”, 
+# V-Dem Working Paper No. 21. 4th edition. University of Gothenburg: 
+# Varieties of Democracy Institute.
 
 # Change Working Directory To Load Your Copy of the V-Dem-Dataset
-V_dem = fread("C:/RTest/V-Dem-CY+Others-v8.csv", encoding = "UTF-8") %>%
+V_dem = fread("unzip -p C:/RTest/V-Dem-CY-Full+Others-v9.zip", encoding = "UTF-8") %>%
   filter(project == 0 | project == 2)
-
 
 #--- Some Data Cleaning ----
 
