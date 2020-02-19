@@ -18,15 +18,15 @@ RS_F <- V_dem %>%
          NoHOG = v2exhoshog, # HOS = HOG
          Elected_Leg = v2xlg_elecreg, # Legislative electoral regime index
          
-         hs_royal_remove = "v2exrmhsol_3_mean", # HOS removal in practice
-         hs_military_remove = "v2exrmhsol_4_mean", # HOS removal in practice
-         hs_religious_remove = "v2exrmhsol_5_mean", # HOS removal in practice
-         hs_tribe_remove = "v2exrmhsol_6_mean", # HOS removal in practice
-         hg_royal_remove = "v2exrmhgnp_3_mean", # HOG removal in practice
-         hg_military_remove = "v2exrmhgnp_4_mean", # HOG removal in practice
-         hg_hs_remove = "v2exrmhgnp_5_mean", # HOG removal in practice
-         hg_religious_remove = "v2exrmhgnp_6_mean", # HOG removal in practice
-         hg_tribe_remove = "v2exrmhgnp_7_mean", # HOG removal in practice
+         hs_royal_remove = "v2exrmhsol_3", # HOS removal in practice
+         hs_military_remove = "v2exrmhsol_4", # HOS removal in practice
+         hs_religious_remove = "v2exrmhsol_5", # HOS removal in practice
+         hs_tribe_remove = "v2exrmhsol_6", # HOS removal in practice
+         hg_royal_remove = "v2exrmhgnp_3", # HOG removal in practice
+         hg_military_remove = "v2exrmhgnp_4", # HOG removal in practice
+         hg_hs_remove = "v2exrmhgnp_5", # HOG removal in practice
+         hg_religious_remove = "v2exrmhgnp_6", # HOG removal in practice
+         hg_tribe_remove = "v2exrmhgnp_7", # HOG removal in practice
          
          v2svdomaut, # Domestic autonomy
          v2svinlaut, # International autonomy
@@ -37,8 +37,8 @@ RS_F <- V_dem %>%
          v2svinlaut_nr, # Nr Coders
          v2cltort_nr, # Nr Coders
          v2clkill_nr, # Nr Coders
-         hs_remove_nr = v2exrmhsol_3_nr, # Nr Coders
-         hg_remove_nr = v2exrmhgnp_3_nr # Nr Coders
+         hs_remove_nr = v2exrmhsol_nr, # Nr Coders
+         hg_remove_nr = v2exrmhgnp_nr # Nr Coders
   )
 
 

@@ -2,7 +2,7 @@ source("Setup/Packages.R")
 source("Datasets/CreateWebsiteData.R")
 
 # Set current (max) year (edition) 
-current_year = 2017 
+current_year = max(website_data$year)
 
 # World Map ----
 

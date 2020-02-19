@@ -9,7 +9,7 @@ source("Setup/CheckFunctions.R")
 # Core Measurement ----
 source("Measurement_Levels/Core_Measurement.R")
 
-NA_plot(core_measurement, "Indices", "index")
+NA_plot(core_measurement, "Indices: Core Measurement", "index")
 table_sum(core_measurement, "core")
 table_sum(core_measurement, "index")
 
@@ -31,7 +31,7 @@ create_plot("Germany", core_measurement, "_core")
 # Context Measurement ----
 source("Measurement_Levels/Context_Measurement.R")
 
-NA_plot(context_measurement, "Indices", "index_context")
+NA_plot(context_measurement, "Indices: Context Measurement", "index_context")
 table_sum(context_measurement, "context")
 
 context_measurement %>%
@@ -52,7 +52,11 @@ create_plot("Germany", context_measurement, "_context")
 # Trade-off Measurement ----
 source("Measurement_Levels/Trade_off_Measurement.R")
 
-NA_plot(trade_off_measurement, "Indices", "index_trade_off")
+NA_plot(trade_off_measurement, "Indices: Trade-Off Measurement", "index_trade_off")
+NA_plot(trade_off_measurement %>% 
+          filter(classification_core == "Working Democracy" | classification_core == "Deficient Democracy"), 
+        "Indices: Trade-Off Measurement (Only Democracies)", "index_trade_off")
+
 table_sum(trade_off_measurement, "trade_off")
 
 Density_plot(trade_off_measurement, "Trade-off-Measurement", "rights_control_trade_off")
