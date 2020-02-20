@@ -1,7 +1,6 @@
 source("Setup/Packages.R")
 source("Datasets/CreateTypo3Identifier.R")
 
-Democracy_Matrix_Small = fread("upload/DemocracyMatrix_v1_1.csv", encoding = "UTF-8")
 
 # identifier for translation in EN and DE
 identification_classification_plots = typo3_identification_classification %>% 
@@ -87,7 +86,7 @@ Democracy_Matrix_Small %>%
        subtitle = "Gesamtwertindex (Kontextmessung)",
        caption = "Positive Werte: Verbesserung;
        \n Negative Werte: Verschlechterung \n
-       Datensatz der Demokratiematrix V1.1") +
+       Datensatz der Demokratiematrix V2") +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none") 
@@ -133,7 +132,7 @@ Democracy_Matrix_Small %>%
        subtitle = "Total Value Index (Context Measurement)",
        caption = "Positive Values: Improvement;
        \n Negative Values: Decline \n
-       Dataset of the Democracy Matrix V1.1") +
+       Dataset of the Democracy Matrix V2") +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none") 
@@ -183,7 +182,7 @@ Democracy_Matrix_Small %>%
        subtitle = "Gesamtwertindex (Kontextmessung)",
        caption = "Positive Werte: Verbesserung;
        \n Negative Werte: Verschlechterung \n
-       Datensatz der Demokratiematrix V1.1") +
+       Datensatz der Demokratiematrix V2") +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none") 
@@ -231,7 +230,7 @@ Democracy_Matrix_Small %>%
        subtitle = "Total Value Index (Context Measurement)",
        caption = "Positive Values: Improvement;
        \n Negative Values: Decline \n
-       Dataset of the Democracy Matrix V1.1") +
+       Dataset of the Democracy Matrix V2") +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none")
