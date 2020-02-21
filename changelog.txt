@@ -4,6 +4,7 @@
 # Changelog Democracy Matrix V.1.1 (May 2019)
 
 1. Fixed a problem with the variable v2elmulpar_ord which caused fluctuations in the time series for some countries.
-2. Fixed a problem when using Excel to open the datasets. 
+2. Reduced the impact of context factors on core components from 0.5 to 0.75.
+3. Fixed a problem when using Excel to open the datasets. 
 
 
