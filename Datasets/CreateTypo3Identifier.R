@@ -11,7 +11,10 @@ typo3_identification_classification = data.frame(
   EN = c("Autocracy", "Hybrid Regime", "Deficient Democracy", "Working Democracy")
 )
 
-write.csv(typo3_identification_classification, "upload/typo3_identification_classification.csv", fileEncoding = "UTF-8", na = "", row.names = F)
+# for import: rename to "classifications.csv"
+write.csv(typo3_identification_classification, "upload/typo3_identification_classification.csv", 
+          fileEncoding = "UTF-8", 
+          na = "", row.names = F)
 
 
 # Typo 3 Country Dataset for Website (DE/EN)
@@ -38,7 +41,8 @@ typo3_identification = website_data %>%
                          "Vietnam, Democratic Republic" =	"Democratic Republic of Vietnam",
                          "Côte d'Ivoire" = "Ivory Coast",
                          "Congo, Republic" =  "Republic of the Congo",
-                         "Vietnam" = "Republic of Vietnam"
+                         "Vietnam" = "Republic of Vietnam",
+                         "São Tomé and Príncipe" = "Sao Tome and Principe"
     )
   )
 
@@ -54,7 +58,7 @@ custom_match = c(
   "East Asia" = "Ostasien",
   "Small island states" = "Kleine Inselstaaten",
   "Global" = "Global",
-  "São Tomé and Príncipe" = "São Tomé und Príncipe",
+  "São Tomé and Príncipe" = "São Tomé and Príncipe",
   
   "Czech Republic" = "Tschechien",
   "Congo, Democratic Republic" =	"Kongo, Demokratische Republik",
@@ -84,4 +88,7 @@ typo3_identification$DE= countrycode(typo3_identification$EN, origin="country.na
 #   summarise(number = n()) %>%
 #   arrange(-number)
 
-write.csv(typo3_identification, "upload/typo3_identification_v2_UTF8.csv", fileEncoding = "UTF-8", na = "", row.names = F)
+# for import: rename to "countries.csv"
+write.csv(typo3_identification, "upload/typo3_identification_v2_UTF8.csv", 
+          fileEncoding = "UTF-8", 
+          na = "", row.names = F)

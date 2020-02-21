@@ -1,7 +1,6 @@
 source("Setup/Packages.R")
 source("Datasets/CreateTypo3Identifier.R")
 
-Democracy_Matrix_Small = fread("upload/DemocracyMatrix_v1_1.csv", encoding = "UTF-8")
 
 # identifier for translation in EN and DE
 identification_classification_plots = typo3_identification_classification %>% 
@@ -54,8 +53,8 @@ Democracy_Matrix_Small %>%
   filter(year>=current_year-1) %>%
   select(country, year, total_index_context) %>% 
   group_by(country) %>% 
-  mutate(total_index_context_2016 = dplyr::lag(total_index_context, 1),
-         difference = total_index_context-total_index_context_2016) %>% 
+  mutate(total_index_context_lag = dplyr::lag(total_index_context, 1),
+         difference = total_index_context-total_index_context_lag) %>% 
   ungroup() %>% 
   filter(year==current_year) %>% 
   na.omit() %>% 
@@ -65,8 +64,8 @@ Democracy_Matrix_Small %>%
               filter(year>=current_year-1) %>%
               select(country, year, total_index_context) %>% 
               group_by(country) %>% 
-              mutate(total_index_context_2016 = dplyr::lag(total_index_context, 1),
-                     difference = total_index_context-total_index_context_2016) %>% 
+              mutate(total_index_context_lag = dplyr::lag(total_index_context, 1),
+                     difference = total_index_context-total_index_context_lag) %>% 
               ungroup() %>% 
               filter(year==current_year) %>% 
               na.omit() %>% 
@@ -75,9 +74,15 @@ Democracy_Matrix_Small %>%
   ) %>% 
   left_join(identification_plots, by="country") %>% 
   mutate(DE_Land = fct_reorder(DE_Land, difference)) %>% 
-  select(Land=DE_Land, difference, direction) %>% 
-  ggplot(aes(x=Land, y=difference, fill=direction)) +
+  rename(Country=DE_Land) %>% 
+  ggplot(aes(x=Country, y=difference, fill=direction)) +
   geom_bar(stat="identity") +
+  geom_text(aes(label=paste(current_year -1, " : ", round(total_index_context_lag, 3), "\n",
+                            current_year, " : ", round(total_index_context,3), sep="")),
+            hjust=c(-0.5,-0.5,-0.5,-0.5,-0.5,
+                    1.5,1.5,1.5,1.5,1.5),
+            size=3
+            ) +
   scale_fill_manual(values = c("#009E73", "#D55E00")) +
   coord_flip() +
   xlab("") +
@@ -87,10 +92,11 @@ Democracy_Matrix_Small %>%
        subtitle = "Gesamtwertindex (Kontextmessung)",
        caption = "Positive Werte: Verbesserung;
        \n Negative Werte: Verschlechterung \n
-       Datensatz der Demokratiematrix V1.1") +
+       Datensatz der Demokratiematrix V2") +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none") 
+
 # Save
 ggsave("WebsiteMaterial/Improvement_DE.png", device = "png", width=20, height=15, units="cm")
 
@@ -100,8 +106,8 @@ Democracy_Matrix_Small %>%
   filter(year>=current_year-1) %>%
   select(country, year, total_index_context) %>% 
   group_by(country) %>% 
-  mutate(total_index_context_2016 = dplyr::lag(total_index_context, 1),
-         difference = total_index_context-total_index_context_2016) %>% 
+  mutate(total_index_context_lag = dplyr::lag(total_index_context, 1),
+         difference = total_index_context-total_index_context_lag) %>% 
   ungroup() %>% 
   filter(year==current_year) %>% 
   na.omit() %>% 
@@ -111,8 +117,8 @@ Democracy_Matrix_Small %>%
               filter(year>=current_year-1) %>%
               select(country, year, total_index_context) %>% 
               group_by(country) %>% 
-              mutate(total_index_context_2016 = dplyr::lag(total_index_context, 1),
-                     difference = total_index_context-total_index_context_2016) %>% 
+              mutate(total_index_context_lag = dplyr::lag(total_index_context, 1),
+                     difference = total_index_context-total_index_context_lag) %>% 
               ungroup() %>% 
               filter(year==current_year) %>% 
               na.omit() %>% 
@@ -121,9 +127,15 @@ Democracy_Matrix_Small %>%
   ) %>% 
   left_join(identification_plots, by="country") %>% 
   mutate(EN_country = fct_reorder(EN_country, difference)) %>% 
-  select(Country=EN_country, difference, direction) %>% 
+  rename(Country=EN_country) %>% 
   ggplot(aes(x=Country, y=difference, fill=direction)) +
   geom_bar(stat="identity") +
+  geom_text(aes(label=paste(current_year -1, " : ", round(total_index_context_lag, 3), "\n",
+                            current_year, " : ", round(total_index_context,3), sep="")),
+            hjust=c(-0.5,-0.5,-0.5,-0.5,-0.5,
+                    1.5,1.5,1.5,1.5,1.5),
+            size=3
+  ) +
   scale_fill_manual(values = c("#009E73", "#D55E00")) +
   coord_flip() +
   xlab("") +
@@ -133,7 +145,7 @@ Democracy_Matrix_Small %>%
        subtitle = "Total Value Index (Context Measurement)",
        caption = "Positive Values: Improvement;
        \n Negative Values: Decline \n
-       Dataset of the Democracy Matrix V1.1") +
+       Dataset of the Democracy Matrix V2") +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none") 
@@ -149,8 +161,8 @@ Democracy_Matrix_Small %>%
          regions == "Europe") %>%
   select(country, year, total_index_context) %>% 
   group_by(country) %>% 
-  mutate(total_index_context_2016 = dplyr::lag(total_index_context, 1),
-         difference = total_index_context-total_index_context_2016) %>% 
+  mutate(total_index_context_lag = dplyr::lag(total_index_context, 1),
+         difference = total_index_context-total_index_context_lag) %>% 
   ungroup() %>% 
   filter(year==current_year) %>% 
   na.omit() %>% 
@@ -161,8 +173,8 @@ Democracy_Matrix_Small %>%
                      regions == "Europe") %>%
               select(country, year, total_index_context) %>% 
               group_by(country) %>% 
-              mutate(total_index_context_2016 = dplyr::lag(total_index_context, 1),
-                     difference = total_index_context-total_index_context_2016) %>% 
+              mutate(total_index_context_lag = dplyr::lag(total_index_context, 1),
+                     difference = total_index_context-total_index_context_lag) %>% 
               ungroup() %>% 
               filter(year==current_year) %>% 
               na.omit() %>% 
@@ -171,9 +183,15 @@ Democracy_Matrix_Small %>%
   ) %>% 
   left_join(identification_plots, by="country") %>% 
   mutate(DE_Land = fct_reorder(DE_Land, difference)) %>% 
-  select(Land=DE_Land, difference, direction) %>% 
-  ggplot(aes(x=Land, y=difference, fill=direction)) +
+  rename(Country=DE_Land) %>% 
+  ggplot(aes(x=Country, y=difference, fill=direction)) +
   geom_bar(stat="identity") +
+  geom_text(aes(label=paste(current_year -1, " : ", round(total_index_context_lag, 3), "\n",
+                            current_year, " : ", round(total_index_context,3), sep="")),
+            hjust=c(-0.5,-0.5,-0.5,-0.5,-0.5,
+                    -0.1,-0.1,-0.1,1.2,-0.1),
+            size=3
+  ) +
   scale_fill_manual(values = c("#009E73", "#D55E00")) +
   coord_flip() +
   xlab("") +
@@ -183,7 +201,7 @@ Democracy_Matrix_Small %>%
        subtitle = "Gesamtwertindex (Kontextmessung)",
        caption = "Positive Werte: Verbesserung;
        \n Negative Werte: Verschlechterung \n
-       Datensatz der Demokratiematrix V1.1") +
+       Datensatz der Demokratiematrix V2") +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none") 
@@ -197,8 +215,8 @@ Democracy_Matrix_Small %>%
          regions == "Europe") %>%
   select(country, year, total_index_context) %>% 
   group_by(country) %>% 
-  mutate(total_index_context_2016 = dplyr::lag(total_index_context, 1),
-         difference = total_index_context-total_index_context_2016) %>% 
+  mutate(total_index_context_lag = dplyr::lag(total_index_context, 1),
+         difference = total_index_context-total_index_context_lag) %>% 
   ungroup() %>% 
   filter(year==current_year) %>% 
   na.omit() %>% 
@@ -209,8 +227,8 @@ Democracy_Matrix_Small %>%
                      regions == "Europe") %>%
               select(country, year, total_index_context) %>% 
               group_by(country) %>% 
-              mutate(total_index_context_2016 = dplyr::lag(total_index_context, 1),
-                     difference = total_index_context-total_index_context_2016) %>% 
+              mutate(total_index_context_lag = dplyr::lag(total_index_context, 1),
+                     difference = total_index_context-total_index_context_lag) %>% 
               ungroup() %>% 
               filter(year==current_year) %>% 
               na.omit() %>% 
@@ -219,9 +237,15 @@ Democracy_Matrix_Small %>%
   ) %>% 
   left_join(identification_plots, by="country") %>% 
   mutate(EN_country = fct_reorder(EN_country, difference)) %>% 
-  select(Country=EN_country, difference, direction) %>% 
+  rename(Country=EN_country) %>% 
   ggplot(aes(x=Country, y=difference, fill=direction)) +
   geom_bar(stat="identity") +
+  geom_text(aes(label=paste(current_year -1, " : ", round(total_index_context_lag, 3), "\n",
+                            current_year, " : ", round(total_index_context,3), sep="")),
+            hjust=c(-0.5,-0.5,-0.5,-0.5,-0.5,
+                    -0.1,-0.1,-0.1,1.2,-0.1),
+            size=3
+  ) +
   scale_fill_manual(values = c("#009E73", "#D55E00")) +
   coord_flip() +
   xlab("") +
@@ -231,7 +255,7 @@ Democracy_Matrix_Small %>%
        subtitle = "Total Value Index (Context Measurement)",
        caption = "Positive Values: Improvement;
        \n Negative Values: Decline \n
-       Dataset of the Democracy Matrix V1.1") +
+       Dataset of the Democracy Matrix V2") +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none")
