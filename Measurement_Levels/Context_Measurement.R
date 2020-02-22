@@ -5,7 +5,7 @@ source_c("Measurement_Levels/Core_Measurement.R", "core_measurement")
 
 
 # Impact of Context Factors on Core Measurement
-scale_min = 0.325
+scale_min = 0.25
 lower_bound = 1-scale_min
 
 # Select Variables
