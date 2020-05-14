@@ -31,9 +31,9 @@ GR_C = GR_C %>%
 
 GR_C = GR_C %>%
   mutate(
-    rights_control_core = cdf(scale_fun(v2exrescon) * 0.25 + scale_fun(v2juhccomp) * 0.5 + scale_fun(v2jucomp) * 0.25)
+    rights_control_core = cdf(scale_fun(v2exrescon) * 0.25 + scale_fun(v2juhccomp) * 0.5 + scale_fun(v2jucomp) * 0.25),
+    rights_control_core = if_else(rights_control_core < 0.001, 0.001, rights_control_core)
   )
-
 
 # Aggregate Number of Coders (Minimum)
 GR_C = GR_C %>%

@@ -14,6 +14,7 @@ PD_F = V_dem %>%
          HOG_appointment = v2expathhg, # HOG appointment in practice
          HOG_appointment_legislature = v2ex_legconhog, #HOG appointed by legislature
          HOS_appointment_legislature = v2ex_legconhos, # HOS appointed by legislature
+         
          HOS_power = v2exdfpphs_ord, # HOS proposes legislation in practice
          NoHOG = v2exhoshog, # HOS = HOG
          v2x_elecreg, # Electoral regime index
@@ -32,6 +33,7 @@ PD_F = V_dem %>%
          v2elmulpar_nr # Nr Coders
   ) %>%
   arrange(country_name, year)
+
 
 # Fill in Values between elections
 PD_F = PD_F %>%
@@ -59,13 +61,13 @@ PD_F = PD_F %>%
                                    ifelse(HOS_power<2 & (HOS_appointment == 7 | (HOS_appointment_legislature == 1 & Elected_Leg == 1)), 1,
                                           ifelse(HOS_power==2 & (HOG_appointment == 8 | (HOG_appointment_legislature == 1 & Elected_Leg == 1) | (HOG_appointment == 6 & Elected_Leg == 1)),1,0.5)))) %>%
   rowwise() %>%
-  mutate(decision_choice_facto = min_fun(c(if_else(v2x_elecreg==0,0,v2elmulpar_ord_tran), ElectedExecutive))) %>%
+  mutate(decision_choice_facto = min_fun(c(if_else(v2x_elecreg==0,0.001,v2elmulpar_ord_tran), ElectedExecutive))) %>%
   ungroup() %>%
   mutate(
-    decision_allocation_facto = if_else(v2x_elecreg==0,0,v2elasmoff_ord_tran),
-    decision_procedure_facto = if_else(v2x_elecreg==0,0,cdf(scale_fun(v2elirreg)*.25 + scale_fun(v2elintim)*.25 + scale_fun(v2elfrfair)*.5)),
+    decision_allocation_facto = if_else(v2x_elecreg==0,0.001,v2elasmoff_ord_tran),
+    decision_procedure_facto = if_else(v2x_elecreg==0,0.001,cdf(scale_fun(v2elirreg)*.25 + scale_fun(v2elintim)*.25 + scale_fun(v2elfrfair)*.5)),
     decision_freedom_core = decision_procedure_facto*decision_allocation_facto*decision_choice_facto,
-    
+    decision_freedom_core = if_else(decision_freedom_core < 0.001, 0.001, decision_freedom_core)
   ) 
 
 

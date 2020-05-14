@@ -29,9 +29,10 @@ RI_C = RI_C %>%
 # https://www.democracymatrix.com/concept-tree-operationalisation/core-measurement
 
 RI_C = RI_C %>%
-  mutate(intermediate_partycontrol_facto = if_else(v2lgbicam==0,0, cdf(scale_fun(v2lgoppart))),
+  mutate(intermediate_partycontrol_facto = if_else(v2lgbicam==0,0.001, cdf(scale_fun(v2lgoppart))),
          intermediate_csocontrol_facto = cdf(scale_fun(v2dlengage)),
-         intermediate_control_core = intermediate_partycontrol_facto * (3/4) +  intermediate_csocontrol_facto * (1/4) 
+         intermediate_control_core = intermediate_partycontrol_facto * (3/4) +  intermediate_csocontrol_facto * (1/4),
+         intermediate_control_core = if_else(intermediate_control_core < 0.001, 0.001, intermediate_control_core)
   ) 
 
 # Aggregate Number of Coders (Minimum)

@@ -72,7 +72,7 @@ RS_F = RS_F %>%
   mutate(
     rules_settlement_noveto_facto = no_vetoplayer,
     rules_settlement_personal_facto = cdf(scale_fun(v2cltort) * 0.5 + scale_fun(v2clkill) * 0.5),
-    rules_settlement_independence_facto = minmax(cdf(scale_fun(v2svdomaut) * 0.5 + scale_fun(v2svinlaut)  * 0.5), 0.5)+0.5,
+    rules_settlement_independence_facto = minmax(cdf(scale_fun(v2svdomaut) * 0.5 + scale_fun(v2svinlaut)  * 0.5), 0.5) + 0.5,
   ) 
 
 
@@ -80,7 +80,8 @@ RS_F = RS_F %>%
   rowwise() %>%
   mutate(
     rules_settlement_government_facto = min_fun(c(rules_settlement_noveto_facto, rules_settlement_independence_facto)), 
-    rule_settlement_freedom_core = rules_settlement_government_facto * rules_settlement_personal_facto
+    rule_settlement_freedom_core = rules_settlement_government_facto * rules_settlement_personal_facto,
+    rule_settlement_freedom_core = if_else(rule_settlement_freedom_core < 0.001, 0.001, rule_settlement_freedom_core)
     ) %>% 
   ungroup()
 

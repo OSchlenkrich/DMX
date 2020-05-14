@@ -33,9 +33,10 @@ RS_C = RS_C %>%
 # https://www.democracymatrix.com/concept-tree-operationalisation/core-measurement
 
 RS_C = RS_C %>%
-  mutate(rules_settlement_admcontrol_facto = if_else(v2lgbicam==0, 0, cdf(scale_fun(v2lgotovst))),
-         rules_settlement_parlcontrol_facto = if_else(v2lgbicam==0, 0, cdf(scale_fun(v2lgfunds) * (0.3) +  scale_fun(v2lginvstp) * (0.4) + scale_fun(v2lgqstexp) * (0.3))),
-         rule_settlement_control_core = rules_settlement_admcontrol_facto * (1/3) + rules_settlement_parlcontrol_facto * (2/3)
+  mutate(rules_settlement_admcontrol_facto = if_else(v2lgbicam==0, 0.001, cdf(scale_fun(v2lgotovst))),
+         rules_settlement_parlcontrol_facto = if_else(v2lgbicam==0, 0.001, cdf(scale_fun(v2lgfunds) * (0.3) +  scale_fun(v2lginvstp) * (0.4) + scale_fun(v2lgqstexp) * (0.3))),
+         rule_settlement_control_core = rules_settlement_admcontrol_facto * (1/3) + rules_settlement_parlcontrol_facto * (2/3),
+         rule_settlement_control_core = if_else(rule_settlement_control_core < 0.001, 0.001, rule_settlement_control_core)
   )  
 
 
@@ -49,3 +50,4 @@ RS_C = RS_C %>%
     rule_settlement_control_core_nr = min_fun(c(rules_settlement_admcontrol_facto_nr, rules_settlement_parlcontrol_facto_nr))
   ) %>% 
   ungroup()
+

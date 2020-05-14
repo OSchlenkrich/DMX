@@ -22,8 +22,12 @@ cdf = function(x) {
 
 
 # MinMax
-minmax <- function(data, scale) {
-  return((data-min(data, na.rm=T))/(max(data, na.rm=T)-min(data, na.rm=T))*scale)
+minmax <- function(data, scale, nozeros = T) {
+  minmaxed_x = (data-min(data, na.rm=T))/(max(data, na.rm=T)-min(data, na.rm=T))*scale
+  if (nozeros == T) {
+    minmaxed_x = ifelse(minmaxed_x == 0, 0.001, minmaxed_x)
+  }
+  return(minmaxed_x)
 }
 
 # z-Standardisation

@@ -33,9 +33,9 @@ RS_E = RS_E %>%
 RS_E = RS_E %>%
   mutate(rules_settlement_parltreatment_facto = cdf(scale_fun(v2dlconslt)),
          rules_settlement_exetreatment_facto = cdf(scale_fun(v2clrspct)),
-         rule_settlement_equality_core = (rules_settlement_parltreatment_facto *  rules_settlement_exetreatment_facto)^(1/2)
+         rule_settlement_equality_core = (rules_settlement_parltreatment_facto *  rules_settlement_exetreatment_facto)^(1/2),
+         rule_settlement_equality_core = if_else(rule_settlement_equality_core < 0.001, 0.001, rule_settlement_equality_core)
   ) 
-
 
 # Aggregate Number of Coders (Minimum)
 RS_E = RS_E %>%

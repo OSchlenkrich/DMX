@@ -49,7 +49,8 @@ PD_E = PD_E %>%
 # Scaling of Variables and Truncate Coders at 5
 
 PD_E =   PD_E %>% 
-  mutate(v2elsuffrage_trans = v2elsuffrage/100)  %>%
+  mutate(v2elsuffrage_trans = v2elsuffrage/100,
+         v2elsuffrage_trans = ifelse(v2elsuffrage_trans == 0, 0.001, v2elsuffrage_trans))  %>%
   mutate(v2elmulpar_ord_tran = minmax(as.numeric(v2elmulpar_ord), 0.5) + 0.5) %>% 
   mutate_at(vars(ends_with("_nr")), funs(ifelse(. > 5 , 5, .)))
 
@@ -60,12 +61,13 @@ PD_E <- PD_E %>%
                                    ifelse(HOS_power<2 & (HOS_appointment == 7 | (HOS_appointment_legislature == 1 & Elected_Leg == 1)), 1,
                                           ifelse(HOS_power==2 & (HOG_appointment == 8 | (HOG_appointment_legislature == 1 & Elected_Leg == 1) | (HOG_appointment == 6 & Elected_Leg == 1)),1,0.5)))) %>%
   rowwise() %>%
-  mutate(decision_choice_facto = min_fun(c(if_else(v2x_elecreg==0,0,v2elmulpar_ord_tran), ElectedExecutive))) %>%
+  mutate(decision_choice_facto = min_fun(c(if_else(v2x_elecreg==0,0.001,v2elmulpar_ord_tran), ElectedExecutive))) %>%
   ungroup() %>%
   mutate(decision_registration_facto = if_else(v2x_elecreg==0,0.5, (minmax(cdf(scale_fun(v2elrgstry)), 0.5) + 0.5)),
-         decision_activeextension_facto = if_else(v2x_elecreg==0, 0, v2elsuffrage_trans),
+         decision_activeextension_facto = if_else(v2x_elecreg==0, 0.001, v2elsuffrage_trans),
          decision_activesuffrage_facto = decision_activeextension_facto * decision_registration_facto,
-         decision_equality_core = decision_activesuffrage_facto * decision_choice_facto
+         decision_equality_core = decision_activesuffrage_facto * decision_choice_facto,
+         decision_equality_core = if_else(decision_equality_core < 0.001, 0.001, decision_equality_core)
   ) 
 
 

@@ -8,6 +8,13 @@ source("Institutions/RI/RI_E.R")
 source("Institutions/RI/RI_C.R")
 
 # Freedom  ----
+
+summary(RI_F)
+
+# check zeros
+which(RI_F$intermediate_freedom_core == 0)
+which(RI_F$intermediate_freedom_core < 0.001)
+
 # Missings
 NA_plot(RI_F, "RI_F")
 
@@ -49,6 +56,13 @@ Plot_Regions(RI_F)
 
 
 # Equality  ----
+
+summary(RI_E)
+
+# check zeros
+which(RI_E$intermediate_equality_core == 0)
+which(RI_E$intermediate_equality_core < 0.001)
+
 # Missings
 NA_plot(RI_E, "RI_E")
 
@@ -67,6 +81,13 @@ Plot_Regions(RI_E)
 
 
 # Control  ----
+
+summary(RI_C)
+
+# check zeros
+which(RI_C$intermediate_control_core == 0)
+which(RI_C$intermediate_control_core < 0.001)
+
 # Missings
 NA_plot(RI_C, "RI_C")
 

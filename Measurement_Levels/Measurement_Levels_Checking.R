@@ -9,9 +9,27 @@ source("Setup/CheckFunctions.R")
 # Core Measurement ----
 source("Measurement_Levels/Core_Measurement.R")
 
+# Check for zeros
+which(core_measurement$freedom_dim_index_core==0)
+which(core_measurement$equality_dim_index_core==0)
+which(core_measurement$control_dim_index_core==0)
+
+which(core_measurement$decision_inst_index_core==0)
+which(core_measurement$intermediate_inst_index_core==0)
+which(core_measurement$communication_inst_index_core==0)
+which(core_measurement$rights_inst_index_core==0)
+which(core_measurement$rule_settlement_inst_index_core==0)
+
+
+# Missings
 NA_plot(core_measurement, "Indices: Core Measurement", "index")
+
+# Summary Tables
 table_sum(core_measurement, "core")
+table_sum(core_measurement, "core", rounding = T)
+
 table_sum(core_measurement, "index")
+table_sum(core_measurement, "index", rounding = T)
 
 core_measurement %>%
   group_by(year, classification_core) %>%
@@ -31,8 +49,28 @@ create_plot("Germany", core_measurement, "_core")
 # Context Measurement ----
 source("Measurement_Levels/Context_Measurement.R")
 
+
+# Check for zeros
+which(context_measurement$freedom_dim_index_context==0)
+which(context_measurement$equality_dim_index_context==0)
+which(context_measurement$control_dim_index_context==0)
+
+which(context_measurement$decision_inst_index_context==0)
+which(context_measurement$intermediate_inst_index_context==0)
+which(context_measurement$communication_inst_index_context==0)
+which(context_measurement$rights_inst_index_context==0)
+which(context_measurement$rule_settlement_inst_index_context==0)
+
+# Missings
 NA_plot(context_measurement, "Indices: Context Measurement", "index_context")
+
+# Summary Tables
 table_sum(context_measurement, "context")
+table_sum(context_measurement, "context", rounding = T)
+
+table_sum(context_measurement, "index")
+table_sum(context_measurement, "index", rounding = T)
+
 
 context_measurement %>%
   group_by(year, classification_context) %>%
@@ -57,7 +95,9 @@ NA_plot(trade_off_measurement %>%
           filter(classification_core == "Working Democracy" | classification_core == "Deficient Democracy"), 
         "Indices: Trade-Off Measurement (Only Democracies)", "index_trade_off")
 
+# Summary Tables
 table_sum(trade_off_measurement, "trade_off")
+table_sum(trade_off_measurement, "trade_off", rounding = T)
 
 Density_plot(trade_off_measurement, "Trade-off-Measurement", "rights_control_trade_off")
 

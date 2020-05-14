@@ -58,16 +58,16 @@ PD_C = PD_C %>%
                                    ifelse(HOS_power<2 & (HOS_appointment == 7 | (HOS_appointment_legislature == 1 & Elected_Leg == 1)), 1,
                                           ifelse(HOS_power==2 & (HOG_appointment == 8 | (HOG_appointment_legislature == 1 & Elected_Leg == 1) | (HOG_appointment == 6 & Elected_Leg == 1)),1,0.5)))) %>%
   rowwise() %>%
-  mutate(decision_choice_facto = min_fun(c(if_else(v2x_elecreg==0,0,v2elmulpar_ord_tran), ElectedExecutive))) %>%
+  mutate(decision_choice_facto = min_fun(c(if_else(v2x_elecreg==0,0.001,v2elmulpar_ord_tran), ElectedExecutive))) %>%
   ungroup() %>%
-  mutate(decision_autonomyemb_facto = if_else(v2x_elecreg==0,0, cdf(scale_fun(v2elembaut))),
-         decision_capacityemb_facto = if_else(v2x_elecreg==0,0, cdf(scale_fun(v2elembcap))),
+  mutate(decision_autonomyemb_facto = if_else(v2x_elecreg==0,0.001, cdf(scale_fun(v2elembaut))),
+         decision_capacityemb_facto = if_else(v2x_elecreg==0,0.001, cdf(scale_fun(v2elembcap))),
          decision_emb_facto = ((decision_autonomyemb_facto * decision_capacityemb_facto)^(1/2))*decision_choice_facto
   )
 
 PD_C$decision_civilmonitors_facto =  NA
-PD_C$decision_civilmonitors_facto[PD_C$v2x_elecreg==0] = 0
-PD_C$decision_civilmonitors_facto[PD_C$v2eldommon==0 & PD_C$v2elintmon==0] = 0
+PD_C$decision_civilmonitors_facto[PD_C$v2x_elecreg==0] = 0.001
+PD_C$decision_civilmonitors_facto[PD_C$v2eldommon==0 & PD_C$v2elintmon==0] = 0.001
 PD_C$decision_civilmonitors_facto[PD_C$v2eldommon==1 & PD_C$v2elintmon==1] = 1
 PD_C$decision_civilmonitors_facto[PD_C$v2eldommon==1 & PD_C$v2elintmon==0] = 1
 PD_C$decision_civilmonitors_facto[PD_C$v2eldommon==0 & PD_C$v2elintmon==1] = 1
@@ -75,17 +75,20 @@ PD_C$decision_civilmonitors_facto[is.na(PD_C$v2eldommon)==T & PD_C$v2elintmon==1
 PD_C$decision_civilmonitors_facto[is.na(PD_C$v2elintmon)==T & PD_C$v2eldommon==1] = 1
 
 # Increases Missings from 850 to 2250
-#PD_C$decision_civilmonitors_facto[is.na(PD_C$v2elintmon)==T & PD_C$v2eldommon==0] = 0
-#PD_C$decision_civilmonitors_facto[is.na(PD_C$v2eldommon)==T & PD_C$v2elintmon==0] = 0
+#PD_C$decision_civilmonitors_facto[is.na(PD_C$v2elintmon)==T & PD_C$v2eldommon==0] = 0.001
+#PD_C$decision_civilmonitors_facto[is.na(PD_C$v2eldommon)==T & PD_C$v2elintmon==0] = 0.001
 
 # Transform decision_civilmonitors_facto
 PD_C$decision_civilmonitors_facto = minmax(PD_C$decision_civilmonitors_facto, 0.5) + 0.5
 
+# Final Calculation
+PD_C = PD_C %>%
+  mutate(decision_control_core = decision_emb_facto * decision_civilmonitors_facto,
+         decision_control_core = if_else(decision_control_core < 0.001, 0.001, decision_control_core)
+  )
 
 # Aggregate Number of Coders (Minimum)
 PD_C = PD_C %>%
-  mutate(decision_control_core = decision_emb_facto * decision_civilmonitors_facto
-  ) %>%
   rowwise() %>%
   mutate(decision_choice_facto_nr = min_fun(v2elmulpar_nr),
          decision_autonomyemb_facto_nr = min_fun(v2elembaut_nr),

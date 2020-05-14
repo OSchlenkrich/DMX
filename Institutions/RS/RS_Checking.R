@@ -8,6 +8,12 @@ source("Institutions/RS/RS_E.R")
 source("Institutions/RS/RS_C.R")
 
 # Freedom  ----
+summary(RS_F)
+
+# check zeros
+which(RS_F$rule_settlement_freedom_core == 0)
+which(RS_F$rule_settlement_freedom_core < 0.001)
+
 # Missings
 NA_plot(RS_F, "RS_F")
 
@@ -26,6 +32,12 @@ Plot_Regions(RS_F)
 
 
 # Equality  ----
+summary(RS_E)
+
+# check zeros
+which(RS_E$rule_settlement_equality_core == 0)
+which(RS_E$rule_settlement_equality_core < 0.001)
+
 # Missings
 NA_plot(RS_E, "RS_E")
 
@@ -43,6 +55,12 @@ Plot_Countries(RS_E)
 Plot_Regions(RS_E)
 
 # Control  ----
+summary(RS_C)
+
+# check zeros
+which(RS_C$rule_settlement_control_core == 0)
+which(RS_C$rule_settlement_control_core < 0.001)
+
 # Missings
 NA_plot(RS_C, "RS_C")
 

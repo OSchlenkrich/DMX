@@ -7,7 +7,7 @@ library(dplyr)
 library(data.table)
 library(gridExtra)
 
-democracymatrix = fread("website_data_v2.csv")
+democracymatrix = fread("website_data_v3.csv")
 curr_year = max(democracymatrix$year, na.rm=T)
 
 # Names of countries and regions
@@ -24,7 +24,7 @@ choices = list(regions=democracymatrix %>%
                  as.character
 )
 
-ui = shinyUI(navbarPage("Democracy Matrix v2, 19/02/2020",
+ui = shinyUI(navbarPage("Democracy Matrix v3, 02/04/2020",
                         tabPanel("15-Field-Matrix",
                                  checkboxInput("checkbox", "Compare with other country", value = FALSE, width = NULL),
                                  

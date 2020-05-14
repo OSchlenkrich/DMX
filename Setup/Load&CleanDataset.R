@@ -23,8 +23,11 @@ source("Setup/Regions/create_regions_data.R")
 # Varieties of Democracy Institute.
 
 # Change Working Directory To Load Your Copy of the V-Dem-Dataset
-V_dem = fread("unzip -p C:/RTest/V-Dem-CY-Full+Others-v9.zip", encoding = "UTF-8") %>%
+V_dem_v9 = fread("unzip -p C:/RTest/V-Dem-CY-Full+Others-v9.zip", encoding = "UTF-8") %>%
+  filter(project == 0 | project == 2) 
+V_dem = fread("unzip -p C:/RTest/V-Dem-CY-Full+Others-v10.zip", encoding = "UTF-8") %>%
   filter(project == 0 | project == 2)
+
 
 #--- Some Data Cleaning ----
 
@@ -40,7 +43,9 @@ V_dem = V_dem %>%
   mutate(v2x_elecreg = replace(v2x_elecreg, country_name == "Syria" & year==2014, 1),
          v2x_elecreg = replace(v2x_elecreg, country_name == "Syria" & year==2016, 1),
          v2x_elecreg = replace(v2x_elecreg, country_name == "Libya" & year==2014, 1),
-         v2x_elecreg = replace(v2x_elecreg, country_name == "Peru" & year==1931, 1)
+         v2x_elecreg = replace(v2x_elecreg, country_name == "Peru" & year==1931, 1),
+         v2x_elecreg = replace(v2x_elecreg, country_name == "Sudan" & year==1974, 1),
+         
   )
 
 
@@ -48,8 +53,19 @@ V_dem = V_dem %>%
 
 #unique(dem_matrix_regions$country_name)[which(unique(dem_matrix_regions$country_name) %!in% unique(V_dem$country_name))]
 #unique(V_dem$country_name)[which(unique(V_dem$country_name) %!in% unique(dem_matrix_regions$country_name))]
-
 V_dem$country_name[V_dem$country_name == "Democratic Republic of the Congo"] = "Democratic Republic of Congo"
 V_dem$country_name[V_dem$country_name == "Vietnam"] = "Democratic Republic of Vietnam"
 
+
+# Sweden: VDem codes Sweden's HOS (King) as having strong legislative power in 2019 (v2exdfpphs_ord)
+# Barbados: VDem codes Barbaods's HOS (Queen) as having strong legislative power in 2019 (v2exdfpphs_ord)
+
+V_dem = V_dem %>% 
+  mutate(v2exdfpphs_ord = replace(v2exdfpphs_ord, country_name == "Sweden" & year==2019, 2),
+         v2exdfpphs_ord = replace(v2exdfpphs_ord, country_name == "Barbados" & year==2019, 2),
+         v2x_elecreg = replace(v2x_elecreg, country_name == "Burkina Faso" & year==2019, 1)
+         )
+# V_dem$v2exdfpphs_ord[V_dem$country_name == "Sweden"]
+# V_dem$v2exdfpphs_ord[V_dem$country_name == "Barbados"]
+# V_dem$v2x_elecreg[V_dem$country_name == "Burkina Faso"]
 

@@ -169,8 +169,8 @@ website_data = website_data %>%
   )
 
 
-write.csv(website_data, "upload/website_data_v2.csv", fileEncoding = "UTF-8", na = "", row.names = F)
-write.csv(website_data, "ShinyApp/website_data_v2.csv", fileEncoding = "UTF-8", na = "", row.names = F)
+write.csv(website_data, "upload/website_data_v3.csv", fileEncoding = "UTF-8", na = "", row.names = F)
+write.csv(website_data, "ShinyApp/website_data_v3.csv", fileEncoding = "UTF-8", na = "", row.names = F)
 
 
 

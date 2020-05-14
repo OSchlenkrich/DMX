@@ -40,7 +40,8 @@ GR_E = GR_E %>%
 GR_E = GR_E %>%
   mutate(rights_access_facto = cdf(access_justice_average),
          rights_equalitylaw_facto = cdf(scale_fun(v2clacjust) * 0.5 + scale_fun(v2clsocgrp)  * 0.5),
-         rights_equality_core = (rights_access_facto * rights_equalitylaw_facto)^(1/2)
+         rights_equality_core = (rights_access_facto * rights_equalitylaw_facto)^(1/2),
+         rights_equality_core = if_else(rights_equality_core < 0.001, 0.001, rights_equality_core)
   )  
 
 # Aggregate Number of Coders (Minimum)

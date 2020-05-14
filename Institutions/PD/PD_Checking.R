@@ -8,6 +8,12 @@ source("Institutions/PD/PD_E.R")
 source("Institutions/PD/PD_C.R")
 
 # Freedom  ----
+summary(PD_F)
+
+# check zeros
+which(PD_F$decision_freedom_core == 0)
+which(PD_F$decision_freedom_core < 0.001)
+
 # Missings
 NA_plot(PD_F, "PD_F")
 
@@ -21,11 +27,19 @@ Density_plot(PD_F, "PD_F")
 Box_plot(PD_F, "PD_F")
 
 #Summary Plots
+
 Plot_Countries(PD_F)
 Plot_Regions(PD_F)
 
 
 # Equality  ----
+
+summary(PD_E)
+
+# check zeros
+which(PD_E$decision_equality_core == 0)
+which(PD_E$decision_equality_core < 0.001)
+
 # Missings
 NA_plot(PD_E, "PD_E")
 
@@ -43,6 +57,13 @@ Plot_Countries(PD_E)
 Plot_Regions(PD_E)
 
 # Control  ----
+
+summary(PD_C)
+
+# check zeros
+which(PD_C$decision_control_core == 0)
+which(PD_C$decision_control_core < 0.001)
+
 # Missings
 NA_plot(PD_C, "PD_C")
 

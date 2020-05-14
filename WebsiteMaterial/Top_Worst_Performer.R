@@ -79,8 +79,8 @@ Democracy_Matrix_Small %>%
   geom_bar(stat="identity") +
   geom_text(aes(label=paste(current_year -1, " : ", round(total_index_context_lag, 3), "\n",
                             current_year, " : ", round(total_index_context,3), sep="")),
-            hjust=c(-0.5,-0.5,-0.5,-0.5,-0.5,
-                    1.5,1.5,1.5,1.5,1.5),
+            hjust=c(-0.5,-0.5,-0.5,-0.1,-0.5,
+                    1.5,1.5,1.1,1.5,1.5),
             size=3
             ) +
   scale_fill_manual(values = c("#009E73", "#D55E00")) +
@@ -98,7 +98,7 @@ Democracy_Matrix_Small %>%
         legend.position = "none") 
 
 # Save
-ggsave("WebsiteMaterial/Improvement_DE.png", device = "png", width=20, height=15, units="cm")
+ggsave("WebsiteMaterial/Plots/Improvement_DE.png", device = "png", width=20, height=15, units="cm")
 
 
 
@@ -132,8 +132,8 @@ Democracy_Matrix_Small %>%
   geom_bar(stat="identity") +
   geom_text(aes(label=paste(current_year -1, " : ", round(total_index_context_lag, 3), "\n",
                             current_year, " : ", round(total_index_context,3), sep="")),
-            hjust=c(-0.5,-0.5,-0.5,-0.5,-0.5,
-                    1.5,1.5,1.5,1.5,1.5),
+            hjust=c(-0.5,-0.5,-0.5,-0.1,-0.5,
+                    1.5,1.5,1.1,1.5,1.5),
             size=3
   ) +
   scale_fill_manual(values = c("#009E73", "#D55E00")) +
@@ -151,7 +151,7 @@ Democracy_Matrix_Small %>%
         legend.position = "none") 
 
 # Save
-ggsave("WebsiteMaterial/Improvement_EN.png", device = "png", width=20, height=15, units="cm")
+ggsave("WebsiteMaterial/Plots/Improvement_EN.png", device = "png", width=20, height=15, units="cm")
 
 
 # Europe
@@ -207,7 +207,7 @@ Democracy_Matrix_Small %>%
         legend.position = "none") 
 
 # Save
-ggsave("WebsiteMaterial/Improvement_DE_Europe.png", device = "png", width=20, height=15, units="cm")
+ggsave("WebsiteMaterial/Plots/Improvement_DE_Europe.png", device = "png", width=20, height=15, units="cm")
 
 
 Democracy_Matrix_Small %>% 
@@ -261,5 +261,5 @@ Democracy_Matrix_Small %>%
         legend.position = "none")
 
 # Save
-ggsave("WebsiteMaterial/Improvement_EN_Europe.png", device = "png", width=20, height=15, units="cm")
+ggsave("WebsiteMaterial/Plots/Improvement_EN_Europe.png", device = "png", width=20, height=15, units="cm")
 

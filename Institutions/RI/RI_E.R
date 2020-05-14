@@ -29,7 +29,8 @@ RI_E = RI_E %>%
 # https://www.democracymatrix.com/concept-tree-operationalisation/core-measurement
 
 RI_E = RI_E %>% 
-  mutate(intermediate_equality_core = cdf(scale_fun(v2pepwrses)*(1/3) + scale_fun(v2pepwrsoc)*(1/3) + scale_fun(v2pepwrgen)*(1/3))
+  mutate(intermediate_equality_core = cdf(scale_fun(v2pepwrses)*(1/3) + scale_fun(v2pepwrsoc)*(1/3) + scale_fun(v2pepwrgen)*(1/3)),
+         intermediate_equality_core = if_else(intermediate_equality_core < 0.001, 0.001, intermediate_equality_core)
   ) 
 
 # Aggregate Number of Coders (Minimum)

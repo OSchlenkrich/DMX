@@ -53,13 +53,14 @@ create_world_map= function(dataset, selected_var, selected_year, label) {
   #             title=paste(label, selected_year, sep=" "), bins=c(0,0.25,0.5,0.75,1.00))
 }
 
-png("WebsiteMaterial/World_Map_Context_Total_de.png", width=20, height=15, units="cm", res=300)
+png("WebsiteMaterial/Plots/World_Map_Context_Total_de.png", width=20, height=15, units="cm", res=300)
 create_world_map(website_data, "total_index_context", current_year, "Gesamtwertindex \n Kontextmessung \n")
 dev.off()
 
-png("WebsiteMaterial/World_Map_Context_Total_en.png", width=20, height=15, units="cm", res=300)
+png("WebsiteMaterial/Plots/World_Map_Context_Total_en.png", width=20, height=15, units="cm", res=300)
 create_world_map(website_data, "total_index_context", current_year, "Total Value Index \n Context Measurement \n")
 dev.off()
+
 
 # Number of Regimes over Time ----
 summary_dim_inst_context = website_data %>%
@@ -94,7 +95,7 @@ ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, col=classification_co
   theme(plot.title = element_text(hjust=0.5), legend.title = element_blank(), plot.subtitle = element_text(hjust=0.5)) 
 
 # Save
-ggsave("WebsiteMaterial/Regimes_Time_de.png", device = "png", width=20, height=15, units="cm")
+ggsave("WebsiteMaterial/Plots/Regimes_Time_de.png", device = "png", width=20, height=15, units="cm")
 
 
 ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, col=classification_context_en))) + 
@@ -108,4 +109,4 @@ ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, col=classification_co
   theme(plot.title = element_text(hjust=0.5), legend.title = element_blank(), plot.subtitle = element_text(hjust=0.5)) 
 
 # Save
-ggsave("WebsiteMaterial/Regimes_Time_en.png", device = "png", width=20, height=15, units="cm")
+ggsave("WebsiteMaterial/Plots/Regimes_Time_en.png", device = "png", width=20, height=15, units="cm")

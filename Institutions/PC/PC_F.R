@@ -47,9 +47,9 @@ PC_F = PC_F %>%
   mutate(communication_press_facto = cdf(if_else(is.na(v2mecenefi)==T, scale_fun(v2mecenefm)*0.5 + scale_fun(v2meharjrn)*0.5, scale_fun(v2mecenefm)*(1/3) + scale_fun(v2meharjrn)*(1/3) + scale_fun(v2mecenefi)*(1/3))),
          communication_opinion_facto = cdf(scale_fun(freedom_discussion)*(1/3) + scale_fun(v2clacfree)*(1/3) + scale_fun(v2clrelig)*(1/3)),
          communication_expression_facto = (communication_press_facto * communication_opinion_facto)^(1/2),
-         communication_freedom_core = communication_expression_facto
+         communication_freedom_core = communication_expression_facto,
+         communication_freedom_core = if_else(communication_freedom_core < 0.001, 0.001, communication_freedom_core)
   ) 
-
 
 # Aggregate Number of Coders (Minimum)
 

@@ -27,8 +27,9 @@ PC_E = PC_E %>%
 # https://www.democracymatrix.com/concept-tree-operationalisation/core-measurement
 
 PC_E = PC_E %>%
-  mutate(communication_representation_facto = cdf(scale_fun(v2mebias)*0.5 + scale_fun(v2merange)*0.5),
-         communication_equality_core = communication_representation_facto
+  mutate(communication_representation_facto = cdf(scale_fun(v2mebias) * 0.5 + scale_fun(v2merange) * 0.5),
+         communication_equality_core = communication_representation_facto,
+         communication_equality_core = if_else(communication_equality_core < 0.001, 0.001, communication_equality_core)
   )
 
 

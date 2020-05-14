@@ -26,7 +26,8 @@ PC_C = PC_C %>%
 # Aggregation according to concept tree 
 # https://www.democracymatrix.com/concept-tree-operationalisation/core-measurement
 PC_C = PC_C %>%
-  mutate(communication_control_core = cdf(scale_fun(v2mecrit)*0.6 + scale_fun(v2meslfcen)*0.4)
+  mutate(communication_control_core = cdf(scale_fun(v2mecrit)*0.6 + scale_fun(v2meslfcen)*0.4),
+         communication_control_core = if_else(communication_control_core < 0.001, 0.001, communication_control_core)
   ) 
 
 # Aggregate Number of Coders (Minimum)

@@ -127,7 +127,7 @@ Plot_Regions = function(dataset) {
 
 
 # Table Summary ----
-table_sum = function(dataset, var_selection = NULL) {
+table_sum = function(dataset, var_selection = NULL, rounding = F) {
   dataset = dataset %>% 
     select_at(vars(-country_name, -year,-matches("_nr"), -matches("class"))) 
   
@@ -143,6 +143,11 @@ table_sum = function(dataset, var_selection = NULL) {
     group_by(variable) %>%
     summarise_all(funs(mean, min, max), na.rm=T) %>%
     na.omit()
+  
+  if (rounding == T) {
+    table_data = table_data %>%  
+    mutate_if(is.numeric, funs(round(.,3))) 
+  }
   
   return(flextable(table_data))  
 }

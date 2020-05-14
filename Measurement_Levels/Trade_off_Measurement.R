@@ -63,9 +63,9 @@ PD_to = PD_to %>%
 # Quota and Compulsory Voting are malus
 PD_to = PD_to %>%
   mutate(
-    decision_genderquota_trade_off_facto = minmax(gender_quota_bin, scale_min) + lower_bound,
-    decision_compulsory_trade_off_facto = minmax(comp_voting1_bin, scale_min) + lower_bound,
-    decision_gallagher_trade_off_facto = minmax(Gallagher_quant, scale_min) + lower_bound, 
+    decision_genderquota_trade_off_facto = minmax(gender_quota_bin, scale_min, nozeros = F) + lower_bound,
+    decision_compulsory_trade_off_facto = minmax(comp_voting1_bin, scale_min, nozeros = F) + lower_bound,
+    decision_gallagher_trade_off_facto = minmax(Gallagher_quant, scale_min, nozeros = F) + lower_bound, 
     
     Gallagher_Bonus_Malus = if_else(decision_genderquota_trade_off_facto==1 & decision_compulsory_trade_off_facto == 1, decision_gallagher_trade_off_facto*0.6 + decision_genderquota_trade_off_facto*0.2 + decision_compulsory_trade_off_facto*0.2, if_else(decision_genderquota_trade_off_facto==1 | decision_compulsory_trade_off_facto == 1, decision_gallagher_trade_off_facto*0.8 + 1*0.2, decision_gallagher_trade_off_facto)),
     
@@ -74,7 +74,7 @@ PD_to = PD_to %>%
     decision_freedom_trade_off_facto  = 1 - decision_equality_trade_off_facto  + lower_bound,
     
     # Control vs. Freedom of Rules Settlement
-    decision_control_trade_off_facto = minmax(DD_init, scale_min) + lower_bound,
+    decision_control_trade_off_facto = minmax(DD_init, scale_min, nozeros = F) + lower_bound,
     decision_rules_settlement_freedom_trade_off_facto  = 1 - decision_control_trade_off_facto + lower_bound
   ) 
 
@@ -114,21 +114,28 @@ RI_PC_GR_to = RI_PC_GR_to %>%
 RI_PC_GR_to = RI_PC_GR_to %>%
   mutate(
     # RI: Equality vs. Freedom 
-    intermediate_equality_trade_off_facto = minmax(cdf(scale_fun(v2elpubfin)), scale_min) + lower_bound,
+    intermediate_equality_trade_off_facto = minmax(cdf(scale_fun(v2elpubfin)), scale_min, nozeros = F) + lower_bound,
     intermediate_freedom_trade_off_facto = 1-intermediate_equality_trade_off_facto + lower_bound,
          
     # PC: Equality vs. Freedom 
-    communication_equality_trade_off_facto  = minmax(cdf(scale_fun(v2elpaidig) * 0.2 + scale_fun(v2elpdcamp) * 0.4 +  scale_fun(v2elfrcamp) * 0.4), scale_min) + lower_bound,
+    communication_equality_trade_off_facto  = minmax(cdf(scale_fun(v2elpaidig) * 0.2 + scale_fun(v2elpdcamp) * 0.4 +  scale_fun(v2elfrcamp) * 0.4), scale_min, nozeros = F) + lower_bound,
     communication_freedom_trade_off_facto  = 1- communication_equality_trade_off_facto  + lower_bound,
     
     # GR: Control vs. Freedom (Rules Settlement) 
-    rights_control_trade_off_facto  = minmax(cdf(scale_fun(v2jureview)), scale_min) + lower_bound,
+    rights_control_trade_off_facto  = minmax(cdf(scale_fun(v2jureview)), scale_min, nozeros = F) + lower_bound,
     rules_settlement_rights_freedom_trade_off_facto = 1-rights_control_trade_off_facto  + lower_bound
   ) 
 
 
 
 # Trade-offs of Rules Settlement ----
+
+v9_v2elncbpr = V_dem_v9 %>%
+  select(country_name,
+         year,
+         v2elncbpr, # Effective number of cabinet parties
+  ) %>%
+  arrange(country_name, year) 
 
 # Select Variables
 RS_to = V_dem %>%
@@ -138,11 +145,13 @@ RS_to = V_dem %>%
          v2elfrfair, # Election free and fair
          
          v2lgdomchm, # Legislature dominant chamber
-         v2elncbpr, # Effective number of cabinet parties
+         # this variables is not included in the new VDem dataset V10
+         # v2elncbpr, # Effective number of cabinet parties
          v2x_divparctrl, # Divided party control index
          v2psnatpar_ord, # National party control
          v2lgbicam  # Legislature bicameral
          ) %>%
+  left_join(v9_v2elncbpr, by=c("country_name", "year")) %>% 
   arrange(country_name, year) 
 
 
@@ -150,7 +159,9 @@ RS_to = V_dem %>%
 RS_to = RS_to %>%
   group_by(country_name) %>%
   mutate_at(vars(starts_with("v2el"), -matches("v2elfrfair")), funs(fill_elections_w_ref(., v2x_elecreg, v2elfrfair))) %>%
-  ungroup() 
+  ungroup() %>% 
+  # delete 2019 observations for v2elncbpr
+  mutate(v2elncbpr = ifelse(year == 2019, NA, v2elncbpr))
 
 
 # Select Only Democracies
@@ -196,11 +207,11 @@ RS_to = RS_to %>%
 # Build Trade-off Components for RS
 RS_to = RS_to %>% 
   mutate(
-    rules_settlement_numberparties_trade_off_facto = minmax(v2elncbpr, scale_min) + lower_bound,
-    rules_settlement_concentration_trade_off_facto = minmax(v2psnatpar_ord_ordered, scale_min) + lower_bound,
+    rules_settlement_numberparties_trade_off_facto = minmax(v2elncbpr, scale_min, nozeros = F) + lower_bound,
+    rules_settlement_concentration_trade_off_facto = minmax(v2psnatpar_ord_ordered, scale_min, nozeros = F) + lower_bound,
     rules_settlement_divide_coaltion_trade_off_facto = rules_settlement_numberparties_trade_off_facto * 0.6 + rules_settlement_concentration_trade_off_facto * 0.4,
     
-    rules_settlement_bicameralism_trade_off_facto = minmax(cdf(scale_fun(v2lgdomchm)), scale_min) + lower_bound,
+    rules_settlement_bicameralism_trade_off_facto = minmax(cdf(scale_fun(v2lgdomchm)), scale_min, nozeros = F) + lower_bound,
     rules_settlement_bicameralism_trade_off_facto = if_else(v2lgbicam== 1, lower_bound, rules_settlement_bicameralism_trade_off_facto),
     
     # RS: Freedom vs. Control

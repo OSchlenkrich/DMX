@@ -8,6 +8,14 @@ source("Institutions/PC/PC_E.R")
 source("Institutions/PC/PC_C.R")
 
 # Freedom  ----
+
+summary(PC_F)
+
+# check zeros
+which(PC_F$communication_freedom_core == 0)
+which(PC_F$communication_freedom_core < 0.001)
+
+
 # Missings
 NA_plot(PC_F, "PC_F")
 
@@ -26,6 +34,14 @@ Plot_Regions(PC_F)
 
 
 # Equality  ----
+
+summary(PC_E)
+
+# check zeros
+which(PC_E$communication_equality_core == 0)
+which(PC_E$communication_equality_core < 0.001)
+
+
 # Missings
 NA_plot(PC_E, "PC_E")
 
@@ -43,6 +59,14 @@ Plot_Countries(PC_E)
 Plot_Regions(PC_E)
 
 # Control  ----
+
+summary(PC_C)
+
+# check zeros
+which(PC_C$communication_control_core == 0)
+which(PC_C$communication_control_core < 0.001)
+
+
 # Missings
 NA_plot(PC_C, "PC_C")
 

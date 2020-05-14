@@ -35,6 +35,7 @@ GR_F = GR_F %>%
   mutate(rights_independence_facto = cdf(scale_fun(v2juhcind)*(2/3) + scale_fun(v2juncind)*(1/3)),
          rights_certainty_facto = cdf(scale_fun(v2juaccnt) * 0.3 + scale_fun(v2cltrnslw) * 0.7),
          rights_freedom_core = (rights_independence_facto * rights_certainty_facto)^(1/2),
+         rights_freedom_core = if_else(rights_freedom_core < 0.001, 0.001, rights_freedom_core)
   )  
 
 

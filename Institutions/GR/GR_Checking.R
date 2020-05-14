@@ -8,6 +8,14 @@ source("Institutions/GR/GR_E.R")
 source("Institutions/GR/GR_C.R")
 
 # Freedom  ----
+
+summary(GR_F)
+
+# check zeros
+which(GR_F$rights_freedom_core == 0)
+which(GR_F$rights_freedom_core < 0.001)
+
+
 # Missings
 NA_plot(GR_F, "GR_F")
 
@@ -26,6 +34,14 @@ Plot_Regions(GR_F)
 
 
 # Equality  ----
+
+summary(GR_E)
+
+# check zeros
+which(GR_E$rights_equality_core == 0)
+which(GR_E$rights_equality_core < 0.001)
+
+
 # Missings
 NA_plot(GR_E, "GR_E")
 
@@ -44,6 +60,14 @@ Plot_Regions(GR_E)
 
 
 # Control  ----
+
+summary(GR_C)
+
+# check zeros
+which(GR_C$rights_control_core == 0)
+which(GR_C$rights_control_core < 0.001)
+
+
 # Missings
 NA_plot(GR_C, "GR_C")
 

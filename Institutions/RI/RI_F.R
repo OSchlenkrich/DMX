@@ -41,7 +41,8 @@ RI_F = RI_F %>%
          intermediate_csoact_facto = cdf(scale_fun(v2cscnsult)),
          intermediate_partyorganization_facto = (intermediate_partyfounding_facto * intermediate_partyact_facto)^(1/2),
          intermediate_csoorganization_facto = (intermediate_csofounding_facto * intermediate_csoact_facto)^(1/2),
-         intermediate_freedom_core = intermediate_partyorganization_facto*(3/4) + intermediate_csoorganization_facto*(1/4)
+         intermediate_freedom_core = intermediate_partyorganization_facto*(3/4) + intermediate_csoorganization_facto*(1/4),
+         intermediate_freedom_core = if_else(intermediate_freedom_core < 0.001, 0.001, intermediate_freedom_core)
   ) 
 
 

@@ -6,6 +6,7 @@ source_c("Measurement_Levels/Context_Measurement.R", "context_measurement")
 source_c("Measurement_Levels/Trade_off_Measurement.R", "trade_off_measurement")
 
 
+
 # Create Democracy Matrix Dataset incl. V-Dem ----
 DemocracyMatrix_incl_VDem = context_measurement %>% 
   left_join(trade_off_measurement, by=c("country_name", "year"), suffix = c("", ".y")) %>%
@@ -26,11 +27,11 @@ DemocracyMatrix_incl_VDem = context_measurement %>%
   rename_at(vars(starts_with("v2")), funs(sub('v2', 'vdem_v2', .))) 
 
 
-write.csv(DemocracyMatrix_incl_VDem, "upload/DemocracyMatrix_v2_incl_VDem.csv", 
+write.csv(DemocracyMatrix_incl_VDem, "upload/DemocracyMatrix_v3_incl_VDem.csv", 
           fileEncoding = "UTF-8", 
           # na = "", 
           row.names = F)
-zip::zipr(zipfile = 'upload/DemocracyMatrix_v2_incl_VDem.zip', files = 'upload/DemocracyMatrix_v2_incl_VDem.csv',
+zip::zipr(zipfile = 'upload/DemocracyMatrix_v3_incl_VDem.zip', files = 'upload/DemocracyMatrix_v3_incl_VDem.csv',
           include_directories = F)
 
 # Create Democracy Matrix Dataset with base variables ----
@@ -50,9 +51,9 @@ Democracy_Matrix_Small = context_measurement %>%
   rename_at(vars(starts_with("v2")), funs(sub('v2', 'vdem_v2', .)))
 
 
-write.csv(Democracy_Matrix_Small, "upload/DemocracyMatrix_v2.csv", 
+write.csv(Democracy_Matrix_Small, "upload/DemocracyMatrix_v3.csv", 
           fileEncoding = "UTF-8", 
           #na = "", 
           row.names = F)
-zip::zipr(zipfile = 'upload/DemocracyMatrix_v2.zip', files = 'upload/DemocracyMatrix_v2.csv',
+zip::zipr(zipfile = 'upload/DemocracyMatrix_v3.zip', files = 'upload/DemocracyMatrix_v3.csv',
           include_directories = F)
