@@ -103,16 +103,34 @@ classification = function(dataset, measurement_level) {
   
   regimeclass_diminst = dataset %>%
     select_at(vars(ends_with(measurement_level))) %>%
-    select_at(vars(matches("inst"), matches("dim"), -matches("total"))) %>% 
-    mutate_all(function(x) round(x, 2))
+    select_at(vars(matches("inst"), matches("dim"), -matches("total")))
+  # mutate_all(function(x) round(x, 2))
   
-  temp_class = factor(levels=c("Autocracy", "Hybrid Regime", "Deficient Democracy", "Working Democracy"))
+  regimeclass_dim = dataset %>%
+    select_at(vars(ends_with(measurement_level))) %>%
+    select_at(vars(matches("dim"), -matches("total"))) 
+  # mutate_all(function(x) round(x, 2))
+  
+  regimeclass_inst = dataset %>%
+    select_at(vars(ends_with(measurement_level))) %>%
+    select_at(vars(matches("inst"), -matches("total")))
+  # mutate_all(function(x) round(x, 2))
+  
+  
+  temp_class = factor(levels=c("Hard Autocracy","Moderate Autocracy", "Hybrid Regime", "Deficient Democracy", "Working Democracy"))
   for (i in 1:dim(regimeclass_diminst)[1]) {
     if (all(is.na(regimeclass_diminst[i, ]) == F)) {
-      temp_class[i] = ifelse(all(regimeclass_diminst[i, ] < 0.5), "Autocracy", 
-                                       ifelse(all(regimeclass_diminst[i, ] >= 0.75), "Working Democracy", 
-                                              ifelse(all(regimeclass_diminst[i, ] >= 0.5), "Deficient Democracy", 
-                                                     ifelse(length(which(regimeclass_diminst[i, ] >= 0.5)) >=2, "Hybrid Regime", "Autocracy"))))     
+      
+      temp_class[i] = case_when(
+        all(regimeclass_diminst[i, ] >= 0.75) ~ "Working Democracy",
+        all(regimeclass_diminst[i, ] >= 0.5) ~ "Deficient Democracy",
+        
+        any(regimeclass_dim[i, ] >= 0.5) & any(regimeclass_inst[i, ] >= 0.5) ~ "Hybrid Regime",
+        any(regimeclass_dim[i, ] >= 0.25) & any(regimeclass_inst[i, ] >= 0.25) ~ "Moderate Autocracy",
+        all(regimeclass_diminst[i, ] < 0.5) ~ "Hard Autocracy",
+        TRUE ~ "Hard Autocracy"
+      ) 
+      
     } else {
       temp_class[i] = NA
     }
