@@ -263,3 +263,89 @@ Democracy_Matrix_Small %>%
 # Save
 ggsave("WebsiteMaterial/Plots/Improvement_EN_Europe.png", device = "png", width=20, height=15, units="cm")
 
+# Regimetype
+
+regimetyp_topworse = Democracy_Matrix_Small %>% 
+  filter(year>=current_year-1) %>%
+  select(country, year, classification_context, total_index_context) %>% 
+  group_by(country) %>% 
+  mutate(total_index_context_lag = dplyr::lag(total_index_context, 1),
+         difference = total_index_context-total_index_context_lag,
+         classification_context = dplyr::lag(classification_context, 1)
+         ) %>% 
+  ungroup() %>% 
+  filter(year==current_year) %>% 
+  na.omit() %>%
+  group_by(classification_context) %>% 
+  top_n(-5, difference) %>%
+  ungroup() %>% 
+  mutate(direction = "worse") %>%
+  bind_rows(Democracy_Matrix_Small %>% 
+              filter(year>=current_year-1) %>%
+              select(country, year, classification_context, total_index_context) %>% 
+              group_by(country) %>% 
+              mutate(total_index_context_lag = dplyr::lag(total_index_context, 1),
+                     difference = total_index_context-total_index_context_lag,
+                     classification_context = dplyr::lag(classification_context, 1)
+                     ) %>% 
+              ungroup() %>% 
+              filter(year==current_year) %>% 
+              na.omit() %>% 
+              group_by(classification_context) %>% 
+              top_n(5, difference) %>% 
+              mutate(direction = "improvement") %>% 
+              ungroup()
+  ) %>% 
+  left_join(identification_plots, by="country")
+
+regimetyp_topworse %>% 
+  rename(Country=DE_Land) %>% 
+  mutate(Country = as.character(Country)) %>% 
+  mutate(Country = fct_reorder(Country, difference)) %>% 
+  ggplot(aes(x=Country, y=difference, fill=direction)) +
+  geom_bar(stat="identity") +
+  scale_fill_manual(values = c("#009E73", "#D55E00")) +
+  facet_wrap(classification_context ~ ., scales = "free_y") + 
+  coord_flip() +
+  xlab("") +
+  ylab(paste("Difference", current_year, "-", current_year-1)) +
+  geom_hline(yintercept = 0, size=1.5) +
+  labs(title = paste("Top Aufsteiger und Absteiger", current_year-1, "-", current_year, "(Regimetypus)"), 
+       subtitle = "Gesamtwertindex (Kontextmessung)",
+       caption = "Positive Werte: Verbesserung;
+       \n Negative Werte: Verschlechterung \n
+       Regimetypus: Kontextmessung 2017\n
+       Datensatz der Demokratiematrix V2") +  theme_bw() +
+  theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
+        legend.position = "none")
+
+# Save
+ggsave("WebsiteMaterial/Improvement_DE_Regimetyp.png", device = "png", width=20, height=15, units="cm")
+
+
+regimetyp_topworse %>% 
+  rename(Country=EN_country) %>% 
+  mutate(Country = as.character(Country),
+         Country = if_else(Country == "United States of America", 
+                           "United States\nof America", Country)) %>% 
+  mutate(Country = fct_reorder(Country, difference)) %>% 
+  ggplot(aes(x=Country, y=difference, fill=direction)) +
+  geom_bar(stat="identity") +
+  scale_fill_manual(values = c("#009E73", "#D55E00")) +
+  facet_wrap(classification_context ~ ., scales = "free_y") + 
+  coord_flip() +
+  xlab("") +
+  ylab(paste("Difference", current_year, "-", current_year-1)) +
+  geom_hline(yintercept = 0, size=1.5) +
+  labs(title = paste("Top Improvers and Decliners", current_year-1, "-", current_year, "(Regimetyp)"),
+       subtitle = "Total Value Index (Context Measurement)",
+       caption = "Positive Values: Improvement;
+       \n Negative Values: Decline \n
+       Regimetype: Context Measurement 2017 \n
+       Dataset of the Democracy Matrix V2") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
+        legend.position = "none")
+
+# Save
+ggsave("WebsiteMaterial/Improvement_EN_Regimetyp.png", device = "png", width=20, height=15, units="cm")
