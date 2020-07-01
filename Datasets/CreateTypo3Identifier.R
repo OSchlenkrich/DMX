@@ -6,9 +6,9 @@ source("Datasets/CreateWebsiteData.R")
 # Typo 3 Classification Dataset for Website (DE/EN)
 
 typo3_identification_classification = data.frame(
-  class_identifier = 1:4,
-  DE = c("Autokratie", "Hybrides Regime", "Defizitäre Demokratie", "Funktionierende Demokratie"),
-  EN = c("Autocracy", "Hybrid Regime", "Deficient Democracy", "Working Democracy")
+  class_identifier = 1:5,
+  DE = c("Harte Autokratie", "Moderate Autokratie", "Hybrides Regime", "Defizitäre Demokratie", "Funktionierende Demokratie"),
+  EN = c("Hard Autocracy", "Moderate Autocracy", "Hybrid Regime", "Deficient Democracy", "Working Democracy")
 )
 
 # for import: rename to "classifications.csv"

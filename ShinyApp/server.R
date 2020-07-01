@@ -346,10 +346,11 @@ server = function(input, output) {
       select_at(vars(classification = matches("classification"))) %>% 
       pull(classification)
     
-    classification[classification == 1] = "Autocracy"
-    classification[classification == 2] = "Hybrid Regime"
-    classification[classification == 3] = "Deficient Democracy"
-    classification[classification == 4] = "Working Democracy"
+    classification[classification == 1] = "Hard Autocracy"
+    classification[classification == 2] = "Moderate Autocracy"
+    classification[classification == 3] = "Hybrid Regime"
+    classification[classification == 4] = "Deficient Democracy"
+    classification[classification == 5] = "Working Democracy"
     
     return(paste(values$country, values$year, ":", classification))
   })

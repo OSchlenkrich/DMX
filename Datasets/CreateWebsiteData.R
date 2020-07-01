@@ -154,18 +154,23 @@ selection = website_data %>%
   select(-country, -year) %>% 
   colnames(.)
 
-
 website_data = website_data %>%
   left_join(year_append_df, by=c("country", "year")) %>%
   arrange(country, year)  %>%
   select(country, year, regions, selection) %>%
-  mutate(classification_core = if_else(classification_core == "Autocracy", 1,
-                                       if_else(classification_core == "Hybrid Regime", 2,
-                                               if_else(classification_core == "Deficient Democracy", 3,4)))
+  mutate(classification_core = case_when(
+    classification_core == "Hard Autocracy" ~ 1,
+    classification_core == "Moderate Autocracy" ~ 2,
+    classification_core == "Hybrid Regime" ~ 3, 
+    classification_core == "Deficient Democracy" ~ 4, 
+    classification_core ==  "Working Democracy" ~ 5)
   ) %>%
-  mutate(classification_context = if_else(classification_context == "Autocracy", 1,
-                                          if_else(classification_context == "Hybrid Regime", 2,
-                                                  if_else(classification_context == "Deficient Democracy", 3,4)))
+  mutate(classification_context = case_when(
+    classification_context == "Hard Autocracy" ~ 1,
+    classification_context == "Moderate Autocracy" ~ 2,
+    classification_context == "Hybrid Regime" ~ 3, 
+    classification_context == "Deficient Democracy" ~ 4, 
+    classification_context ==  "Working Democracy" ~ 5)
   )
 
 

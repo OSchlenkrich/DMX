@@ -24,7 +24,7 @@ choices = list(regions=democracymatrix %>%
                  as.character
 )
 
-ui = shinyUI(navbarPage("Democracy Matrix v3, 02/04/2020",
+ui = shinyUI(navbarPage("Democracy Matrix v3, 01/07/2020",
                         tabPanel("15-Field-Matrix",
                                  checkboxInput("checkbox", "Compare with other country", value = FALSE, width = NULL),
                                  

@@ -81,6 +81,7 @@ PD_C$decision_civilmonitors_facto[is.na(PD_C$v2elintmon)==T & PD_C$v2eldommon==1
 # Transform decision_civilmonitors_facto
 PD_C$decision_civilmonitors_facto = minmax(PD_C$decision_civilmonitors_facto, 0.5) + 0.5
 
+
 # Final Calculation
 PD_C = PD_C %>%
   mutate(decision_control_core = decision_emb_facto * decision_civilmonitors_facto,

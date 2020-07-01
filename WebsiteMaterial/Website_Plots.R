@@ -29,7 +29,8 @@ create_world_map= function(dataset, selected_var, selected_year, label) {
   merged_map_data <- subset(merged_map_data, NAME  %in%  cnt)
   
   values_pal = dmy_year$variable
-  
+
+
   pal = colorNumeric(
     palette = c("darkred", "#DA4F33", "#E6E02C", "#307210"),
     domain = 0:1
@@ -62,22 +63,26 @@ create_world_map(website_data, "total_index_context", current_year, "Total Value
 dev.off()
 
 
+
 # Number of Regimes over Time ----
 summary_dim_inst_context = website_data %>%
   group_by(year, classification_context) %>%
   summarise(Nr_Regime = n()) %>%
+  ungroup() %>% 
   na.omit() %>% 
   mutate(classification_context = as.factor(classification_context),
          classification_context_de = fct_recode(classification_context, 
-                                                "Autokratie" = "1",
-                                                "Hybrides Regime" = "2",
-                                                "Defizitäre Demokratie" = "3",
-                                                "Funktionierende Demokratie"="4"),
+                                                "Harte Autokratie" = "1",
+                                                "Moderate Autokratie" = "2",
+                                                "Hybrides Regime" = "3",
+                                                "Defizitäre Demokratie" = "4",
+                                                "Funktionierende Demokratie"="5"),
          classification_context_en = fct_recode(classification_context, 
-                                                "Autocracy" = "1",
-                                                "Hybrid Regime" = "2",
-                                                "Deficient Demokratie" = "3",
-                                                "Working Demokratie"="4"),
+                                                "Hard Autocracy" = "1", 
+                                                "Moderate Autocracy" = "2",
+                                                "Hybrid Regime" = "3",
+                                                "Deficient Demokratie" = "4",
+                                                "Working Demokratie"="5"),
          
   )  %>%
   na.omit()
@@ -88,7 +93,7 @@ ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, col=classification_co
   geom_line(size=1.1) + scale_x_continuous(breaks=seq(1900, 2020, 10)) + scale_y_continuous(breaks=seq(0, 150, 10)) + theme(axis.text.x = element_text(angle=90), legend.title = element_blank(), axis.title.x = element_blank(), plot.title = element_text(hjust=0.5)) + 
   labs(title = "Anzahl der Regimetypen im Zeitverlauf",
        subtitle = "Regimeklassifizierung (Kontextmessung)",
-       caption = "Datensatz der Demokratiematrix V2") + 
+       caption = "Datensatz der Demokratiematrix V3") + 
   ylab("Anzahl Regimetypen") + 
   xlab("") +
   theme_bw() +
@@ -102,7 +107,7 @@ ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, col=classification_co
   geom_line(size=1.1) + scale_x_continuous(breaks=seq(1900, 2020, 10)) + scale_y_continuous(breaks=seq(0, 150, 10)) + theme(axis.text.x = element_text(angle=90), legend.title = element_blank(), axis.title.x = element_blank(), plot.title = element_text(hjust=0.5)) + 
   labs(title = "Number of Regimes over Time",
        subtitle = "Regime Classification (Context Measurement)",
-       caption = "Dataset of the Democracy Matrix V2") + 
+       caption = "Dataset of the Democracy Matrix V3") + 
   ylab("Number of Regimes") + 
   xlab("") +
   theme_bw() +
@@ -110,3 +115,76 @@ ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, col=classification_co
 
 # Save
 ggsave("WebsiteMaterial/Plots/Regimes_Time_en.png", device = "png", width=20, height=15, units="cm")
+
+
+# World Map Categorical ----
+create_world_map_cat= function(dataset, selected_var, selected_year, label, cat_label) {
+  dmy_year = dataset %>% 
+    filter(year==selected_year) %>% 
+    select(country, variable = selected_var) %>%
+    mutate(country = as.character(country))
+  
+  dmy_year$country[dmy_year$country=="Burma/Myanmar"] = "Burma"
+  dmy_year$country[dmy_year$country=="Republic of Vietnam"] = "Vietnam"
+  dmy_year$country[dmy_year$country=="São Tomé and Príncipe"] = "Sao Tome and Principe"
+  
+  merged_map_data <- joinCountryData2Map(dmy_year,
+                                         joinCode = "NAME",
+                                         nameJoinColumn = "country",
+                                         verbose = TRUE)
+  
+  
+  
+  cnt = as.character(merged_map_data$NAME[merged_map_data$NAME != "Antarctica"])
+  cnt = as.character(cnt[cnt != "Greenland"])
+  
+  merged_map_data <- subset(merged_map_data, NAME  %in%  cnt)
+  
+  values_pal = dmy_year$variable
+  
+
+  library(RColorBrewer)
+  
+  colourPalette <- brewer.pal(5,'RdYlGn')
+  
+  mapParams = mapCountryData(merged_map_data,
+                             nameColumnToPlot="variable",
+                             colourPalette=colourPalette,
+                             catMethod="categorical", 
+                             addLegend = T, 
+                             #lwd=1,
+                             mapTitle = paste(label, selected_year))
+  
+  do.call( addMapLegendBoxes, c(mapParams, title=cat_label))
+  
+}
+
+png("WebsiteMaterial/Plots/World_Map_Context_Classification_de.png", width=25, height=15, units="cm", res=300)
+create_world_map_cat(website_data %>% 
+                       mutate(classification_context = as.factor(classification_context),
+                              classification_context_de = fct_recode(classification_context, 
+                                                                     "Harte Autokratie" = "1",
+                                                                     "Moderate Autokratie" = "2",
+                                                                     "Hybrides Regime" = "3",
+                                                                     "Defizitäre Demokratie" = "4",
+                                                                     "Funktionierende Demokratie"="5")
+                       ),
+                     "classification_context_de", current_year, "Regimeklassifikation \n Kontextmessung \n", "Regimetypen")
+dev.off()
+
+
+
+
+
+png("WebsiteMaterial/Plots/World_Map_Context_Classification_en.png", width=25, height=15, units="cm", res=300)
+create_world_map_cat(website_data %>% 
+                       mutate(classification_context = as.factor(classification_context),
+                              classification_context_en = fct_recode(classification_context, 
+                                                                     "Hard Autocracy" = "1", 
+                                                                     "Moderate Autocracy" = "2",
+                                                                     "Hybrid Regime" = "3",
+                                                                     "Deficient Demokratie" = "4",
+                                                                     "Working Demokratie"="5")
+                              ),
+                     "classification_context_en", current_year, "Regime Classification \n Context Measurement \n", "Regimetypes")
+dev.off()

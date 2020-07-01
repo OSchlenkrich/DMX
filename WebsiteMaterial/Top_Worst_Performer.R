@@ -16,7 +16,7 @@ current_year = max(Democracy_Matrix_Small$year)
 
 Democracy_Matrix_Small %>% 
   filter(year==current_year) %>% 
-  select(country, total_index_context,classification_context) %>% 
+  select(country, total_index_context, classification_context) %>% 
   na.omit() %>% 
   arrange(-total_index_context) %>% 
   mutate(total_index_context = round(total_index_context,3),
@@ -81,7 +81,7 @@ Democracy_Matrix_Small %>%
                             current_year, " : ", round(total_index_context,3), sep="")),
             hjust=c(-0.5,-0.5,-0.5,-0.1,-0.5,
                     1.5,1.5,1.1,1.5,1.5),
-            size=3
+            size=2
             ) +
   scale_fill_manual(values = c("#009E73", "#D55E00")) +
   coord_flip() +
@@ -92,7 +92,7 @@ Democracy_Matrix_Small %>%
        subtitle = "Gesamtwertindex (Kontextmessung)",
        caption = "Positive Werte: Verbesserung;
        \n Negative Werte: Verschlechterung \n
-       Datensatz der Demokratiematrix V2") +
+       Datensatz der Demokratiematrix V3") +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none") 
@@ -134,7 +134,7 @@ Democracy_Matrix_Small %>%
                             current_year, " : ", round(total_index_context,3), sep="")),
             hjust=c(-0.5,-0.5,-0.5,-0.1,-0.5,
                     1.5,1.5,1.1,1.5,1.5),
-            size=3
+            size=2
   ) +
   scale_fill_manual(values = c("#009E73", "#D55E00")) +
   coord_flip() +
@@ -145,7 +145,7 @@ Democracy_Matrix_Small %>%
        subtitle = "Total Value Index (Context Measurement)",
        caption = "Positive Values: Improvement;
        \n Negative Values: Decline \n
-       Dataset of the Democracy Matrix V2") +
+       Dataset of the Democracy Matrix V3") +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none") 
@@ -190,7 +190,7 @@ Democracy_Matrix_Small %>%
                             current_year, " : ", round(total_index_context,3), sep="")),
             hjust=c(-0.5,-0.5,-0.5,-0.5,-0.5,
                     -0.1,-0.1,-0.1,1.2,-0.1),
-            size=3
+            size=2
   ) +
   scale_fill_manual(values = c("#009E73", "#D55E00")) +
   coord_flip() +
@@ -201,7 +201,7 @@ Democracy_Matrix_Small %>%
        subtitle = "Gesamtwertindex (Kontextmessung)",
        caption = "Positive Werte: Verbesserung;
        \n Negative Werte: Verschlechterung \n
-       Datensatz der Demokratiematrix V2") +
+       Datensatz der Demokratiematrix V3") +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none") 
@@ -244,7 +244,7 @@ Democracy_Matrix_Small %>%
                             current_year, " : ", round(total_index_context,3), sep="")),
             hjust=c(-0.5,-0.5,-0.5,-0.5,-0.5,
                     -0.1,-0.1,-0.1,1.2,-0.1),
-            size=3
+            size=2
   ) +
   scale_fill_manual(values = c("#009E73", "#D55E00")) +
   coord_flip() +
@@ -255,7 +255,7 @@ Democracy_Matrix_Small %>%
        subtitle = "Total Value Index (Context Measurement)",
        caption = "Positive Values: Improvement;
        \n Negative Values: Decline \n
-       Dataset of the Democracy Matrix V2") +
+       Dataset of the Democracy Matrix V3") +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none")
@@ -300,7 +300,9 @@ regimetyp_topworse = Democracy_Matrix_Small %>%
 
 regimetyp_topworse %>% 
   rename(Country=DE_Land) %>% 
-  mutate(Country = as.character(Country)) %>% 
+  mutate(Country = as.character(Country),
+         Country = if_else(Country == "Kongo, Demokratische Republik", 
+                           "Kongo, \nDemokratische Republik", Country)) %>% 
   mutate(Country = fct_reorder(Country, difference)) %>% 
   ggplot(aes(x=Country, y=difference, fill=direction)) +
   geom_bar(stat="identity") +
@@ -315,19 +317,21 @@ regimetyp_topworse %>%
        caption = "Positive Werte: Verbesserung;
        \n Negative Werte: Verschlechterung \n
        Regimetypus: Kontextmessung 2017\n
-       Datensatz der Demokratiematrix V2") +  theme_bw() +
+       Datensatz der Demokratiematrix V3") +  theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none")
 
 # Save
-ggsave("WebsiteMaterial/Improvement_DE_Regimetyp.png", device = "png", width=20, height=15, units="cm")
+ggsave("WebsiteMaterial/Plots/Improvement_DE_Regimetyp.png", device = "png", width=25, height=20, units="cm")
 
 
 regimetyp_topworse %>% 
   rename(Country=EN_country) %>% 
   mutate(Country = as.character(Country),
          Country = if_else(Country == "United States of America", 
-                           "United States\nof America", Country)) %>% 
+                           "United States\nof America", Country),
+         Country = if_else(Country == "Congo, Democratic Republic", 
+                           "Congo, \nDemocratic Republic", Country)) %>% 
   mutate(Country = fct_reorder(Country, difference)) %>% 
   ggplot(aes(x=Country, y=difference, fill=direction)) +
   geom_bar(stat="identity") +
@@ -342,10 +346,10 @@ regimetyp_topworse %>%
        caption = "Positive Values: Improvement;
        \n Negative Values: Decline \n
        Regimetype: Context Measurement 2017 \n
-       Dataset of the Democracy Matrix V2") +
+       Dataset of the Democracy Matrix V3") +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none")
 
 # Save
-ggsave("WebsiteMaterial/Improvement_EN_Regimetyp.png", device = "png", width=20, height=15, units="cm")
+ggsave("WebsiteMaterial/Plots/Improvement_EN_Regimetyp.png", device = "png", width=25, height=20, units="cm")

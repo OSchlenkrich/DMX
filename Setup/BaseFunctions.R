@@ -123,11 +123,17 @@ classification = function(dataset, measurement_level) {
       
       temp_class[i] = case_when(
         all(regimeclass_diminst[i, ] >= 0.75) ~ "Working Democracy",
-        all(regimeclass_diminst[i, ] >= 0.5) ~ "Deficient Democracy",
         
+        # Deficient Democracy:  7 out of 8 indices >= 0.5
+        length(which(regimeclass_diminst[i, ] >= 0.5)) >= 7 ~ "Deficient Democracy",
+        
+        # Hybrid Regime: at least 1 Dimension and 1 Institution >= 0.5
         any(regimeclass_dim[i, ] >= 0.5) & any(regimeclass_inst[i, ] >= 0.5) ~ "Hybrid Regime",
+        
+        # at least 1 Dimension and 1 Institution >= 0.25
         any(regimeclass_dim[i, ] >= 0.25) & any(regimeclass_inst[i, ] >= 0.25) ~ "Moderate Autocracy",
-        all(regimeclass_diminst[i, ] < 0.5) ~ "Hard Autocracy",
+        
+        # countries which where not classified before must be hard autocracies (per exclusion principle) 
         TRUE ~ "Hard Autocracy"
       ) 
       
@@ -137,5 +143,6 @@ classification = function(dataset, measurement_level) {
   }
   return(temp_class)
 }
+
 
 
