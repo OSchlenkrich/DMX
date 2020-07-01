@@ -69,15 +69,17 @@ summary_dim_inst_context = website_data %>%
   na.omit() %>% 
   mutate(classification_context = as.factor(classification_context),
          classification_context_de = fct_recode(classification_context, 
-                                                "Autokratie" = "1",
-                                                "Hybrides Regime" = "2",
-                                                "Defizitäre Demokratie" = "3",
-                                                "Funktionierende Demokratie"="4"),
+                                                "Harte Autokratie" = "1",
+                                                "Moderate Autokratie" = "2",
+                                                "Hybrides Regime" = "3",
+                                                "Defizitäre Demokratie" = "4",
+                                                "Funktionierende Demokratie"="5"),
          classification_context_en = fct_recode(classification_context, 
-                                                "Autocracy" = "1",
-                                                "Hybrid Regime" = "2",
-                                                "Deficient Demokratie" = "3",
-                                                "Working Demokratie"="4"),
+                                                "Hard Autocracy" = "1", 
+                                                "Moderate Autocracy" = "2",
+                                                "Hybrid Regime" = "3",
+                                                "Deficient Demokratie" = "4",
+                                                "Working Demokratie"="5"),
          
   )  %>%
   na.omit()

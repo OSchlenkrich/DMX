@@ -24,9 +24,11 @@ source("Setup/Regions/create_regions_data.R")
 
 # Change Working Directory To Load Your Copy of the V-Dem-Dataset
 V_dem_v9 = fread("unzip -p C:/RTest/V-Dem-CY-Full+Others-v9.zip", encoding = "UTF-8") %>%
-  filter(project == 0 | project == 2) 
+  filter(project == 0 | project == 2) %>% 
+  as_tibble()
 V_dem = fread("unzip -p C:/RTest/V-Dem-CY-Full+Others-v10.zip", encoding = "UTF-8") %>%
-  filter(project == 0 | project == 2)
+  filter(project == 0 | project == 2) %>% 
+  as_tibble()
 
 
 #--- Some Data Cleaning ----
