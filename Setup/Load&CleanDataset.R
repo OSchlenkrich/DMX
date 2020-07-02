@@ -53,6 +53,8 @@ V_dem = V_dem %>%
 
 # Matching Country Names
 
+
+
 #unique(dem_matrix_regions$country_name)[which(unique(dem_matrix_regions$country_name) %!in% unique(V_dem$country_name))]
 #unique(V_dem$country_name)[which(unique(V_dem$country_name) %!in% unique(dem_matrix_regions$country_name))]
 V_dem$country_name[V_dem$country_name == "Democratic Republic of the Congo"] = "Democratic Republic of Congo"
