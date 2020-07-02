@@ -160,14 +160,22 @@ website_data = website_data %>%
   select(country, year, regions, selection) %>%
   mutate(classification_core = case_when(
     classification_core == "Hard Autocracy" ~ 1,
+<<<<<<< HEAD
     classification_core == "Moderate Autocracy" ~ 2,
+=======
+    classification_core == "Moderate Autocracy" ~2,
+>>>>>>> f60182735d6ead6045cb4f9adbbb54caade34214
     classification_core == "Hybrid Regime" ~ 3, 
     classification_core == "Deficient Democracy" ~ 4, 
     classification_core ==  "Working Democracy" ~ 5)
   ) %>%
   mutate(classification_context = case_when(
     classification_context == "Hard Autocracy" ~ 1,
+<<<<<<< HEAD
     classification_context == "Moderate Autocracy" ~ 2,
+=======
+    classification_context == "Moderate Autocracy" ~2,
+>>>>>>> f60182735d6ead6045cb4f9adbbb54caade34214
     classification_context == "Hybrid Regime" ~ 3, 
     classification_context == "Deficient Democracy" ~ 4, 
     classification_context ==  "Working Democracy" ~ 5)
