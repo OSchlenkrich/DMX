@@ -8,6 +8,7 @@ library(countrycode)
 library(leaflet)
 library(rworldmap)
 library(shiny)
+library(RColorBrewer)
 
 
 # for correct display of tibbles

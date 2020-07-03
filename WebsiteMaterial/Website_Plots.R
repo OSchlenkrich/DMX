@@ -1,6 +1,8 @@
 source("Setup/Packages.R")
 source("Datasets/CreateWebsiteData.R")
 
+# website_data = fread("upload/website_data_v3.csv", encoding = "UTF-8")
+
 # Set current (max) year (edition) 
 current_year = max(website_data$year)
 
@@ -89,8 +91,13 @@ summary_dim_inst_context = website_data %>%
 
 
 
-ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, col=classification_context_de))) + 
-  geom_line(size=1.1) + scale_x_continuous(breaks=seq(1900, 2020, 10)) + scale_y_continuous(breaks=seq(0, 150, 10)) + theme(axis.text.x = element_text(angle=90), legend.title = element_blank(), axis.title.x = element_blank(), plot.title = element_text(hjust=0.5)) + 
+ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, fill=classification_context_de))) + 
+  geom_area(stat="identity", col="black") + 
+  scale_x_continuous(breaks=seq(1900, 2020, 10)) + 
+  scale_y_continuous(breaks=seq(0, 500, 10)) +
+  scale_fill_manual(values=brewer.pal(5,'RdYlGn')) +
+  coord_cartesian(expand=0) + 
+  theme(axis.text.x = element_text(angle=90), legend.title = element_blank(), axis.title.x = element_blank(), plot.title = element_text(hjust=0.5)) + 
   labs(title = "Anzahl der Regimetypen im Zeitverlauf",
        subtitle = "Regimeklassifizierung (Kontextmessung)",
        caption = "Datensatz der Demokratiematrix V3") + 
@@ -103,8 +110,13 @@ ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, col=classification_co
 ggsave("WebsiteMaterial/Plots/Regimes_Time_de.png", device = "png", width=20, height=15, units="cm")
 
 
-ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, col=classification_context_en))) + 
-  geom_line(size=1.1) + scale_x_continuous(breaks=seq(1900, 2020, 10)) + scale_y_continuous(breaks=seq(0, 150, 10)) + theme(axis.text.x = element_text(angle=90), legend.title = element_blank(), axis.title.x = element_blank(), plot.title = element_text(hjust=0.5)) + 
+ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, fill=classification_context_en))) + 
+  geom_area(stat="identity", col="black") + 
+  scale_x_continuous(breaks=seq(1900, 2020, 10)) + 
+  scale_y_continuous(breaks=seq(0, 500, 10)) +
+  scale_fill_manual(values=brewer.pal(5,'RdYlGn')) +
+  coord_cartesian(expand=0) + 
+  theme(axis.text.x = element_text(angle=90), legend.title = element_blank(), axis.title.x = element_blank(), plot.title = element_text(hjust=0.5)) + 
   labs(title = "Number of Regimes over Time",
        subtitle = "Regime Classification (Context Measurement)",
        caption = "Dataset of the Democracy Matrix V3") + 
@@ -143,8 +155,6 @@ create_world_map_cat= function(dataset, selected_var, selected_year, label, cat_
   values_pal = dmy_year$variable
   
 
-  library(RColorBrewer)
-  
   colourPalette <- brewer.pal(5,'RdYlGn')
   
   mapParams = mapCountryData(merged_map_data,
