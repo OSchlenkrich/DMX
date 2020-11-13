@@ -155,7 +155,7 @@ selection = website_data %>%
   colnames(.)
 
 website_data = website_data %>%
-  left_join(year_append_df, by=c("country", "year")) %>%
+  full_join(year_append_df, by=c("country", "year")) %>%
   arrange(country, year)  %>%
   select(country, year, regions, selection) %>%
   mutate(classification_core = case_when(
