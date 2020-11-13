@@ -130,7 +130,7 @@ ggsave("WebsiteMaterial/Plots/Regimes_Time_en.png", device = "png", width=20, he
 
 
 # World Map Categorical ----
-create_world_map_cat= function(dataset, selected_var, selected_year, label, cat_label) {
+create_world_map_cat= function(dataset, selected_var, selected_year, label = NULL, cat_label) {
   dmy_year = dataset %>% 
     filter(year==selected_year) %>% 
     select(country, variable = selected_var) %>%
@@ -155,15 +155,26 @@ create_world_map_cat= function(dataset, selected_var, selected_year, label, cat_
   values_pal = dmy_year$variable
   
 
-  colourPalette <- brewer.pal(5,'RdYlGn')
+  colourPalette <- rev(brewer.pal(5,'RdYlGn'))
   
-  mapParams = mapCountryData(merged_map_data,
-                             nameColumnToPlot="variable",
-                             colourPalette=colourPalette,
-                             catMethod="categorical", 
-                             addLegend = T, 
-                             #lwd=1,
-                             mapTitle = paste(label, selected_year))
+  if (is.null(label) == T) {
+    mapParams = mapCountryData(merged_map_data,
+                               nameColumnToPlot="variable",
+                               colourPalette=colourPalette,
+                               catMethod="categorical", 
+                               addLegend = T, 
+                               #lwd=1,
+                               mapTitle = "")    
+  } else {
+    mapParams = mapCountryData(merged_map_data,
+                               nameColumnToPlot="variable",
+                               colourPalette=colourPalette,
+                               catMethod="categorical", 
+                               addLegend = T, 
+                               #lwd=1,
+                               mapTitle = paste(label, selected_year))
+  }
+
   
   do.call( addMapLegendBoxes, c(mapParams, title=cat_label))
   
@@ -185,16 +196,57 @@ dev.off()
 
 
 
+# Democratic Republic of Vietnam
 
 png("WebsiteMaterial/Plots/World_Map_Context_Classification_en.png", width=25, height=15, units="cm", res=300)
 create_world_map_cat(website_data %>% 
+                       #rworldmap doesn't know 'Eswatini'
+                       mutate(country = ifelse(country == "Eswatini", "Swaziland", country),
+                              country = ifelse(country == "North Macedonia", "Macedonia", country),
+                              country = ifelse(country == "Democratic Republic of Vietnam", "Vietnam", country),
+                              classification_context = ifelse(country == "Canada" & year == 2019, "Working Democracy", classification_context),
+                              classification_context = ifelse(country == "Bahrain" & year == 2019, "Hard Autocracy", classification_context),
+                              classification_context = ifelse(country == "Moldova" & year == 2019, "Deficient Democracy", classification_context)) %>% 
                        mutate(classification_context = as.factor(classification_context),
                               classification_context_en = fct_recode(classification_context, 
                                                                      "Hard Autocracy" = "1", 
                                                                      "Moderate Autocracy" = "2",
                                                                      "Hybrid Regime" = "3",
-                                                                     "Deficient Demokratie" = "4",
-                                                                     "Working Demokratie"="5")
+                                                                     "Deficient Democracy" = "4",
+                                                                     "Working Democracy"="5"),
+                              classification_context_en = fct_relevel(classification_context_en, 
+                                                                      "Working Democracy", 
+                                                                      "Deficient Democracy",
+                                                                      "Hybrid Regime",
+                                                                      "Moderate Autocracy",
+                                                                      "Hard Autocracy")
                               ),
                      "classification_context_en", current_year, "Regime Classification \n Context Measurement \n", "Regimetypes")
+dev.off()
+
+# Report
+png("WebsiteMaterial/Plots/World_Map_Context_Classification_report_en.png", width=25, height=15, units="cm", res=300)
+create_world_map_cat(website_data %>% 
+                       #rworldmap doesn't know 'Eswatini'
+                       mutate(country = ifelse(country == "Eswatini", "Swaziland", country),
+                              country = ifelse(country == "North Macedonia", "Macedonia", country),
+                              country = ifelse(country == "Democratic Republic of Vietnam", "Vietnam", country),
+                              classification_context = ifelse(country == "Canada" & year == 2019, "Working Democracy", classification_context),
+                              classification_context = ifelse(country == "Bahrain" & year == 2019, "Hard Autocracy", classification_context),
+                              classification_context = ifelse(country == "Moldova" & year == 2019, "Deficient Democracy", classification_context)) %>% 
+                       mutate(classification_context = as.factor(classification_context),
+                              classification_context_en = fct_recode(classification_context, 
+                                                                     "Hard Autocracy" = "1", 
+                                                                     "Moderate Autocracy" = "2",
+                                                                     "Hybrid Regime" = "3",
+                                                                     "Deficient Democracy" = "4",
+                                                                     "Working Democracy"="5"),
+                              classification_context_en = fct_relevel(classification_context_en, 
+                                                                      "Working Democracy", 
+                                                                      "Deficient Democracy",
+                                                                      "Hybrid Regime",
+                                                                      "Moderate Autocracy",
+                                                                      "Hard Autocracy")
+                       ),
+                     "classification_context_en", current_year, label = NULL, "Regimetypes")
 dev.off()
