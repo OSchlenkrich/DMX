@@ -22,7 +22,10 @@ which(core_measurement$rule_settlement_inst_index_core==0)
 
 
 # Missings
+# V10: 2400 obs in total index core are missing
+# V11: 2500 obs in total index core are missing
 NA_plot(core_measurement, "Indices: Core Measurement", "index")
+NA_year_plot(core_measurement, "Indices: Core Measurement", "index")
 
 # Summary Tables
 table_sum(core_measurement, "core")
@@ -62,7 +65,9 @@ which(context_measurement$rights_inst_index_context==0)
 which(context_measurement$rule_settlement_inst_index_context==0)
 
 # Missings
+# V11: 2500 obs in total index context are missing
 NA_plot(context_measurement, "Indices: Context Measurement", "index_context")
+NA_year_plot(context_measurement, "Indices: Context Measurement", "index")
 
 # Summary Tables
 table_sum(context_measurement, "context")
@@ -89,9 +94,15 @@ create_plot("Germany", context_measurement, "_context")
 
 # Trade-off Measurement ----
 source("Measurement_Levels/Trade_off_Measurement.R")
-
+# V11: 15000 obs in total index tradeoff are missing
 NA_plot(trade_off_measurement, "Indices: Trade-Off Measurement", "index_trade_off")
+NA_year_plot(trade_off_measurement, "Indices: Trade-Off Measurement", "index")
+
+# V11: 800 obs in total index tradeoff are missing
 NA_plot(trade_off_measurement %>% 
+          filter(classification_core == "Working Democracy" | classification_core == "Deficient Democracy"), 
+        "Indices: Trade-Off Measurement (Only Democracies)", "index_trade_off")
+NA_year_plot(trade_off_measurement %>% 
           filter(classification_core == "Working Democracy" | classification_core == "Deficient Democracy"), 
         "Indices: Trade-Off Measurement (Only Democracies)", "index_trade_off")
 

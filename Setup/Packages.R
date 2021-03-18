@@ -9,6 +9,7 @@ library(leaflet)
 library(rworldmap)
 library(shiny)
 library(RColorBrewer)
+library(tidyr)
 
 
 # for correct display of tibbles

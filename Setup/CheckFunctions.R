@@ -26,6 +26,32 @@ NA_plot = function(data, name_data, var_selection = NULL) {
   return(NA_plot)
 }
 
+NA_year_plot = function(data, name_data, var_selection = NULL) {
+  data = data %>% 
+    select(-country_name) 
+  
+  if (is.null(var_selection) == F ){
+    data = data %>% 
+      select_at(vars(year, matches(var_selection)))
+  }
+
+  na_col = data %>% 
+    group_by(year) %>% 
+    summarise_all(funs(sum(is.na(.))))
+  
+  na_col_plot = na_col %>%
+    pivot_longer(cols=-year)
+
+  NA_plot = ggplot(na_col_plot, aes(x=year, y=value)) + 
+    geom_line(size=1.1) + 
+    theme_bw() + 
+    ggtitle(paste(name_data, "- Missings for each Variable")) +
+    theme(axis.text.x = element_text(angle=90), plot.title = element_text(hjust = 0.5)) +
+    facet_wrap(name ~ .)
+  
+  return(NA_plot)
+}
+
 # Plot with Number of Coders per variable ----
 Coders_plot = function(data, name_data) {
   Nr_coder_df = data %>% 
@@ -81,12 +107,16 @@ Box_plot = function(data, name_data) {
 
 
 # Plot Sample Countries ----
-Plot_Countries = function(dataset) {
+Plot_Countries = function(dataset, random = F) {
   
-  sample_countries = c("Germany", "Italy", "Sweden","United States of America", 
-                       "United Kingdom", "Poland", "Russia", "Mexico", "Colombia", 
-                       "South Africa", "Democratic Republic of Congo", "China",
-                       "Tunisia", "Syria", "Mexico", "Netherlands")
+  if (random == T) {
+    sample_countries = sample(unique(dataset$country_name), 10)
+  } else {
+    sample_countries = c("Germany", "Italy", "Sweden","United States of America", 
+                         "United Kingdom", "Poland", "Russia", "Mexico", "Colombia", 
+                         "South Africa", "Democratic Republic of Congo", "China",
+                         "Tunisia", "Syria", "Mexico", "Netherlands")
+  } 
   
   plot_data = dataset %>%
     filter(country_name %in% sample_countries) %>%
