@@ -6,7 +6,7 @@ library(dplyr)
 library(gridExtra)
 library(data.table)
 
-democracymatrix = fread("website_data_v3.csv")
+democracymatrix = fread("website_data_v4.csv")
 
 # Names of countries and regions
 choices = list(regions=democracymatrix %>% 
