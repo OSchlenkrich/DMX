@@ -8,9 +8,10 @@ identification_classification_plots = typo3_identification_classification %>%
 identification_plots = typo3_identification %>% 
   select(country=country_identifier, EN_country = "EN", DE_Land="DE")
 
-# Set current (max) year (edition) 
+# Set current (max) year 
 current_year = max(Democracy_Matrix_Small$year) 
-
+# edition DeMaX
+version = "V4"
 
 # Ranking ####
 
@@ -90,9 +91,9 @@ Democracy_Matrix_Small %>%
   geom_hline(yintercept = 0, size=1.5) +
   labs(title = paste("Top Aufsteiger und Absteiger", current_year-1, "-", current_year, "(weltweit)"), 
        subtitle = "Gesamtwertindex (Kontextmessung)",
-       caption = "Positive Werte: Verbesserung;
+       caption = paste("Positive Werte: Verbesserung
        \n Negative Werte: Verschlechterung \n
-       Datensatz der Demokratiematrix V3") +
+       Datensatz der Demokratiematrix", version)) +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none") 
@@ -143,9 +144,9 @@ Democracy_Matrix_Small %>%
   geom_hline(yintercept = 0, size=1.5) +
   labs(title = paste("Top Improvers and Decliners", current_year-1, "-", current_year, "(global)"), 
        subtitle = "Total Value Index (Context Measurement)",
-       caption = "Positive Values: Improvement;
+       caption = paste("Positive Values: Improvement
        \n Negative Values: Decline \n
-       Dataset of the Democracy Matrix V3") +
+       Dataset of the Democracy Matrix", version)) +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none") 
@@ -199,9 +200,9 @@ Democracy_Matrix_Small %>%
   geom_hline(yintercept = 0, size=1.5) +
   labs(title = paste("Top Aufsteiger und Absteiger", current_year-1, "-", current_year, "(Europa)"), 
        subtitle = "Gesamtwertindex (Kontextmessung)",
-       caption = "Positive Werte: Verbesserung;
+       caption = paste("Positive Werte: Verbesserung
        \n Negative Werte: Verschlechterung \n
-       Datensatz der Demokratiematrix V3") +
+       Datensatz der Demokratiematrix", version)) +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none") 
@@ -253,9 +254,9 @@ Democracy_Matrix_Small %>%
   geom_hline(yintercept = 0, size=1.5) +
   labs(title = paste("Top Improvers and Decliners", current_year-1, "-", current_year, "(Europe)"), 
        subtitle = "Total Value Index (Context Measurement)",
-       caption = "Positive Values: Improvement;
+       caption = paste("Positive Values: Improvement
        \n Negative Values: Decline \n
-       Dataset of the Democracy Matrix V3") +
+       Dataset of the Democracy Matrix", version)) +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none")
@@ -303,7 +304,13 @@ regimetyp_topworse %>%
   mutate(Country = as.character(Country),
          Country = if_else(Country == "Kongo, Demokratische Republik", 
                            "Kongo, \nDemokratische Republik", Country)) %>% 
-  mutate(Country = fct_reorder(Country, difference)) %>% 
+  mutate(Country = fct_reorder(Country, difference),
+         classification_context = fct_recode(classification_context, 
+                                                "Harte Autokratie" = "Hard Autocracy",
+                                                "Moderate Autokratie" = "Moderate Autocracy",
+                                                "Hybrides Regime" = "Hybrid Regime",
+                                                "Defizitäre Demokratie" = "Deficient Democracy",
+                                                "Funktionierende Demokratie"="Working Democracy")) %>% 
   ggplot(aes(x=Country, y=difference, fill=direction)) +
   geom_bar(stat="identity") +
   scale_fill_manual(values = c("#009E73", "#D55E00")) +
@@ -314,10 +321,11 @@ regimetyp_topworse %>%
   geom_hline(yintercept = 0, size=1.5) +
   labs(title = paste("Top Aufsteiger und Absteiger", current_year-1, "-", current_year, "(Regimetypus)"), 
        subtitle = "Gesamtwertindex (Kontextmessung)",
-       caption = "Positive Werte: Verbesserung;
+       caption = paste("Positive Werte: Verbesserung
        \n Negative Werte: Verschlechterung \n
-       Regimetypus: Kontextmessung 2017\n
-       Datensatz der Demokratiematrix V3") +  theme_bw() +
+       Regimetypus: Kontextmessung", 
+                       current_year -1,
+                       "\n\nDatensatz der Demokratiematrix", version)) +  theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none")
 
@@ -343,13 +351,15 @@ regimetyp_topworse %>%
   geom_hline(yintercept = 0, size=1.5) +
   labs(title = paste("Top Improvers and Decliners", current_year-1, "-", current_year, "(Regimetyp)"),
        subtitle = "Total Value Index (Context Measurement)",
-       caption = "Positive Values: Improvement;
+       caption = paste("Positive Values: Improvement
        \n Negative Values: Decline \n
-       Regimetype: Context Measurement 2017 \n
-       Dataset of the Democracy Matrix V3") +
+       Regimetype: Context Measurement",
+                       current_year -1,
+       "\n\nDataset of the Democracy Matrix", version)) +
   theme_bw() +
   theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5),
         legend.position = "none")
 
 # Save
 ggsave("WebsiteMaterial/Plots/Improvement_EN_Regimetyp.png", device = "png", width=25, height=20, units="cm")
+
