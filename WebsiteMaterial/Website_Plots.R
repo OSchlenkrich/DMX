@@ -85,6 +85,18 @@ summary_dim_inst_context = website_data %>%
                                                 "Hybrid Regime" = "3",
                                                 "Deficient Demokratie" = "4",
                                                 "Working Demokratie"="5"),
+         classification_context_de = fct_relevel(classification_context_de,
+                                                 "Funktionierende Demokratie",
+                                                 "Defizitäre Demokratie",
+                                                 "Hybrides Regime",
+                                                 "Moderate Autokratie",
+                                                 "Harte Autokratie"),
+         classification_context_en = fct_relevel(classification_context_en, 
+                                                 "Working Demokratie",
+                                                 "Deficient Demokratie",
+                                                 "Hybrid Regime",
+                                                 "Moderate Autocracy",
+                                                 "Hard Autocracy")
          
   )  %>%
   na.omit()
@@ -95,7 +107,7 @@ ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, fill=classification_c
   geom_area(stat="identity", col="black") + 
   scale_x_continuous(breaks=seq(1900, 2020, 10)) + 
   scale_y_continuous(breaks=seq(0, 500, 10)) +
-  scale_fill_manual(values=brewer.pal(5,'RdYlGn')) +
+  scale_fill_manual(values=rev(brewer.pal(5,'RdYlGn'))) +
   coord_cartesian(expand=0) + 
   theme(axis.text.x = element_text(angle=90), legend.title = element_blank(), axis.title.x = element_blank(), plot.title = element_text(hjust=0.5)) + 
   labs(title = "Anzahl der Regimetypen im Zeitverlauf",
@@ -114,7 +126,7 @@ ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, fill=classification_c
   geom_area(stat="identity", col="black") + 
   scale_x_continuous(breaks=seq(1900, 2020, 10)) + 
   scale_y_continuous(breaks=seq(0, 500, 10)) +
-  scale_fill_manual(values=brewer.pal(5,'RdYlGn')) +
+  scale_fill_manual(values=rev(brewer.pal(5,'RdYlGn'))) +
   coord_cartesian(expand=0) + 
   theme(axis.text.x = element_text(angle=90), legend.title = element_blank(), axis.title.x = element_blank(), plot.title = element_text(hjust=0.5)) + 
   labs(title = "Number of Regimes over Time",
@@ -188,15 +200,19 @@ create_world_map_cat(website_data %>%
                                                                      "Moderate Autokratie" = "2",
                                                                      "Hybrides Regime" = "3",
                                                                      "Defizitäre Demokratie" = "4",
-                                                                     "Funktionierende Demokratie"="5")
+                                                                     "Funktionierende Demokratie"="5"),
+                              classification_context_de = fct_relevel(classification_context_de,
+                                                                      "Funktionierende Demokratie",
+                                                                      "Defizitäre Demokratie",
+                                                                      "Hybrides Regime",
+                                                                      "Moderate Autokratie",
+                                                                      "Harte Autokratie")
                        ),
                      "classification_context_de", current_year, "Regimeklassifikation \n Kontextmessung \n", "Regimetypen")
 dev.off()
 
 
 
-
-# Democratic Republic of Vietnam
 
 png("WebsiteMaterial/Plots/World_Map_Context_Classification_en.png", width=25, height=15, units="cm", res=300)
 create_world_map_cat(website_data %>% 
@@ -224,7 +240,7 @@ create_world_map_cat(website_data %>%
                      "classification_context_en", current_year, "Regime Classification \n Context Measurement \n", "Regimetypes")
 dev.off()
 
-# Report
+# Report 2019
 png("WebsiteMaterial/Plots/World_Map_Context_Classification_report_en.png", width=25, height=15, units="cm", res=300)
 create_world_map_cat(website_data %>% 
                        #rworldmap doesn't know 'Eswatini'
