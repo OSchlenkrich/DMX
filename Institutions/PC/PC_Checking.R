@@ -29,7 +29,7 @@ Density_plot(PC_F, "PC_F")
 Box_plot(PC_F, "PC_F")
 
 #Summary Plots
-Plot_Countries(PC_F)
+Plot_Countries(PC_F, random= T)
 Plot_Regions(PC_F)
 
 
@@ -55,7 +55,7 @@ Density_plot(PC_E, "PC_E")
 Box_plot(PC_E, "PC_E")
 
 #Summary Plots
-Plot_Countries(PC_E)
+Plot_Countries(PC_E, random= T)
 Plot_Regions(PC_E)
 
 # Control  ----
@@ -80,7 +80,7 @@ Density_plot(PC_C, "PC_C")
 Box_plot(PC_C, "PC_C")
 
 #Summary Plots
-Plot_Countries(PC_C)
+Plot_Countries(PC_C, random= T)
 Plot_Regions(PC_C)
 
 

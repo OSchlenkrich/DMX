@@ -189,8 +189,8 @@ Democracy_Matrix_Small %>%
   geom_bar(stat="identity") +
   geom_text(aes(label=paste(current_year -1, " : ", round(total_index_context_lag, 3), "\n",
                             current_year, " : ", round(total_index_context,3), sep="")),
-            hjust=c(-0.5,-0.5,-0.5,-0.5,-0.5,
-                    -0.1,-0.1,-0.1,1.2,-0.1),
+            hjust=c(-0.1,-0.5,-0.5,-0.5,-0.5,
+                    -0.1,-0.1,0.3,1.2,-0.1),
             size=2
   ) +
   scale_fill_manual(values = c("#009E73", "#D55E00")) +
@@ -243,8 +243,8 @@ Democracy_Matrix_Small %>%
   geom_bar(stat="identity") +
   geom_text(aes(label=paste(current_year -1, " : ", round(total_index_context_lag, 3), "\n",
                             current_year, " : ", round(total_index_context,3), sep="")),
-            hjust=c(-0.5,-0.5,-0.5,-0.5,-0.5,
-                    -0.1,-0.1,-0.1,1.2,-0.1),
+            hjust=c(-0.1,-0.5,-0.5,-0.5,-0.5,
+                    -0.1,-0.1,0.3,1.2,-0.1),
             size=2
   ) +
   scale_fill_manual(values = c("#009E73", "#D55E00")) +

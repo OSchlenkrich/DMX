@@ -27,7 +27,7 @@ Density_plot(RS_F, "RS_F")
 Box_plot(RS_F, "RS_F")
 
 #Summary Plots
-Plot_Countries(RS_F)
+Plot_Countries(RS_F, random=T)
 Plot_Regions(RS_F)
 
 

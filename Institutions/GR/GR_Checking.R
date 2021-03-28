@@ -29,7 +29,7 @@ Density_plot(GR_F, "GR_F")
 Box_plot(GR_F, "GR_F")
 
 #Summary Plots
-Plot_Countries(GR_F)
+Plot_Countries(GR_F, random= T)
 Plot_Regions(GR_F)
 
 

@@ -90,7 +90,7 @@ Density_plot(PD_C, "PD_C")
 Box_plot(PD_C, "PD_C")
 
 #Summary Plots
-Plot_Countries(PD_C)
+Plot_Countries(PD_C, random = T)
 Plot_Regions(PD_C)
 
 

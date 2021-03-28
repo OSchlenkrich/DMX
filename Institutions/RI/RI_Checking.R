@@ -51,7 +51,7 @@ Density_plot(RI_F, "RI_F")
 Box_plot(RI_F, "RI_F")
 
 #Summary Plots
-Plot_Countries(RI_F)
+Plot_Countries(RI_F, random= T)
 Plot_Regions(RI_F)
 
 
@@ -76,7 +76,7 @@ Density_plot(RI_E, "RI_E")
 Box_plot(RI_E, "RI_E")
 
 #Summary Plots
-Plot_Countries(RI_E)
+Plot_Countries(RI_E, random= T)
 Plot_Regions(RI_E)
 
 
@@ -116,7 +116,7 @@ Density_plot(RI_C, "RI_C")
 Box_plot(RI_C, "RI_C")
 
 #Summary Plots
-Plot_Countries(RI_C)
+Plot_Countries(RI_C, random= T)
 Plot_Regions(RI_C)
 
 

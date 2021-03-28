@@ -5,6 +5,6 @@ account: rbeginner101
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 358741
-bundleId: 2979629
+bundleId: 4367434
 url: https://rbeginner101.shinyapps.io/Demokratiematrix/
-when: 1586243588.1171
+when: 1616142366.89925

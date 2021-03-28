@@ -112,7 +112,7 @@ ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, fill=classification_c
   theme(axis.text.x = element_text(angle=90), legend.title = element_blank(), axis.title.x = element_blank(), plot.title = element_text(hjust=0.5)) + 
   labs(title = "Anzahl der Regimetypen im Zeitverlauf",
        subtitle = "Regimeklassifizierung (Kontextmessung)",
-       caption = "Datensatz der Demokratiematrix V3") + 
+       caption = "Datensatz der Demokratiematrix V4") + 
   ylab("Anzahl Regimetypen") + 
   xlab("") +
   theme_bw() +
@@ -131,7 +131,7 @@ ggplot(summary_dim_inst_context, (aes(x=year, y=Nr_Regime, fill=classification_c
   theme(axis.text.x = element_text(angle=90), legend.title = element_blank(), axis.title.x = element_blank(), plot.title = element_text(hjust=0.5)) + 
   labs(title = "Number of Regimes over Time",
        subtitle = "Regime Classification (Context Measurement)",
-       caption = "Dataset of the Democracy Matrix V3") + 
+       caption = "Dataset of the Democracy Matrix V4") + 
   ylab("Number of Regimes") + 
   xlab("") +
   theme_bw() +
