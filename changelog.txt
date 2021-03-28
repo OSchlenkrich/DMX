@@ -1,3 +1,7 @@
+# Changelog Democracy Matrix V.4 (March 2021)
+1. Updated to Varieties of Democracy Dataset V.11
+
+
 # Changelog Democracy Matrix V.3 (July 2020)
 1. Updated to Varieties of Democracy Dataset V.10
 2. Replaced 0 in the dataset with 0.001 for mathematical reasons: We multiply the values of each matrix field to yield the institutional and dimensional index values. Therefore, 0 values lead to 0 index values, regardless of the values of the other matrix fields. We decided to replace  0 with 0.001 for each matrix field, so that the final index values is also influenced by the other values of the other matrix fields. 
